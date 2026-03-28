@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional Portfolio of ANAS - Computer & Network Engineering Student at EMSI | Full-Stack Developer | Networking Specialist">
+    <meta name="keywords" content="portfolio, engineer, developer, full-stack, networking, Java, PHP, JavaScript, React">
+    <meta name="author" content="ANAS">
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anass-fs.github.io/">
+    <meta property="og:title" content="ANAS | Engineering Portfolio">
+    <meta property="og:description" content="Professional Portfolio of Computer & Network Engineering Student - Full Stack Developer & Innovator">
+    <meta property="og:image" content="https://anass-fs.github.io/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://anass-fs.github.io/">
+    <meta property="twitter:title" content="ANAS | Engineering Portfolio">
+    <meta property="twitter:description" content="Professional Portfolio of Computer & Network Engineering Student">
+    <meta property="twitter:image" content="https://anass-fs.github.io/og-image.jpg">
+    
+    <title>ANAS | Engineering Portfolio - Full Stack Developer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark/Light Mode" title="Dark/Light Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <div class="container">
+            <a href="#home" class="navbar-brand" aria-label="ANAS Portfolio Home">ANAS</a>
+            <div class="menu-toggle" id="mobile-menu" aria-label="Toggle Mobile Menu" aria-expanded="false">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#tech-stack" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Work</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section Hero -->
+    <section id="home" class="hero" role="banner" aria-label="Welcome Section">
+        <div class="hero-content">
+            <h1 class="reveal-element stagger-1">Aspiring <span id="typing-text" aria-live="polite"></span><span class="typing-cursor" aria-hidden="true">|</span></h1>
+            <p class="reveal-element stagger-2">Computer & Network Engineering Student at EMSI | 3rd Year</p>
+            <div class="hero-btns reveal-element stagger-3">
+                <a href="#projects" class="btn-primary-zak" aria-label="View My Work - Navigate to Projects Section">View My Work</a>
+                <a href="https://drive.google.com/file/d/1xHHCDoHBneSHsE5vm3JZtkq1zgB7zaCM/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-outline-zak" aria-label="View My CV"><i class="fas fa-eye mr-2" aria-hidden="true"></i> View My CV</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section About -->
+    <section id="about" class="py-10" role="region" aria-label="About Me Section">
+        <div class="container">
+            <h2 class="reveal-element">ABOUT<span>ME</span></h2>
+            <div class="grid-2">
+                <div class="reveal-element stagger-1">
+                    <p class="fs-5 mb-4">I am currently specializing in <strong>Computer Engineering and Networks (IIR)</strong> at EMSI, focusing on full-stack development and network security.</p>
+                    <p class="fs-5 mb-4">My goal is to blend technical precision with creative design to solve complex digital problems. I am actively seeking a technical internship for <strong>July 2026</strong> to contribute to innovative projects.</p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/anass-zaari" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/anass-fs" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="stats-grid reveal-element stagger-2">
+                    <div class="stat-card">
+                        <h3>4</h3>
+                        <p class="text-uppercase small fw-bold mt-2">Projects</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>3IIR</h3>
+                        <p class="text-uppercase small fw-bold mt-2">Level</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Tech Stack -->
+    <section id="tech-stack" class="py-10" role="region" aria-label="Technical Skills Section">
+        <div class="container">
+            <h2 class="reveal-element">TECH<span>STACK</span></h2>
+            <div class="tech-grid reveal-element stagger-1" role="list">
+                <div class="tech-item" role="listitem">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML5 / CSS3</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-js"></i>
+                    <span>JavaScript</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-java"></i>
+                    <span>Java</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-code"></i>
+                    <span>C / C++</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-php"></i>
+                    <span>PHP / Symfony</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-react"></i>
+                    <span>React.js</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <span>MySQL / PL-SQL</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-linux"></i>
+                    <span>Linux</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-python"></i>
+                    <span>Python / Django</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Networking</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Projects -->
+    <section id="projects" class="py-10" role="region" aria-label="Portfolio Projects Section">
+        <div class="container">
+            <h2 class="reveal-element">MY<span>WORK</span></h2>
+            <div id="projects-container" class="grid-auto reveal-element stagger-1" role="list">
+                <!-- Projects will be loaded dynamically from projects.json -->
+                <p aria-live="polite">Loading projects...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section id="contact" class="py-10" role="region" aria-label="Contact Form Section">
+        <div class="container">
+            <h2 class="reveal-element">GET IN<span>TOUCH</span></h2>
+            
+            <!-- Contact Info -->
+            <div class="contact-info reveal-element stagger-1">
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <a href="mailto:zaaria46@gmail.com" aria-label="Send email to zaaria46@gmail.com">zaaria46@gmail.com</a>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <a href="tel:+212630507058" aria-label="Call +212 630507058">+212 630507058</a>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Location</h4>
+                        <p>Casablanca, Morocco</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="contact-socials reveal-element stagger-2">
+                <a href="https://github.com/anass-fs" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub Profile">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/anass-zaari" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn Profile">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+
+            <!-- OR Divider -->
+            <div class="divider reveal-element stagger-2">
+                <span>OR</span>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-container reveal-element stagger-3">
+                <form id="contactForm" action="https://formspree.io/f/xwvwvdaw" method="POST" novalidate aria-label="Contact Form">
+                    <div class="form-group">
+                        <input type="text" name="name" class="input-minimal" placeholder="Full Name" required aria-label="Full Name" aria-required="true" maxlength="100">
+                        <span class="error-message" aria-live="polite"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" class="input-minimal" placeholder="Email Address" required aria-label="Email Address" aria-required="true" maxlength="100">
+                        <span class="error-message" aria-live="polite"></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" class="input-minimal" placeholder="How can I help you?" rows="5" required aria-label="Message" aria-required="true" maxlength="5000"></textarea>
+                        <span class="error-message" aria-live="polite"></span>
+                    </div>
+                    <button type="submit" class="btn-primary-zak w-100" id="submitBtn" aria-label="Submit Contact Form">Send Message</button>
+                    <div id="formFeedback" class="form-feedback" aria-live="polite" aria-atomic="true"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ANAS</h4>
+                    <p>Computer & Network Engineering Student</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p>
+                        <a href="mailto:zaaria46@gmail.com">zaaria46@gmail.com</a><br>
+                        <a href="tel:+212630507058">+212 630507058</a><br>
+                        Casablanca, Morocco
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h5>Social</h5>
+                    <div class="footer-socials">
+                        <a href="https://github.com/anass-fs" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/anass-zaari" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ANAS | Built with Passion & Precision.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to Top" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="projects.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
