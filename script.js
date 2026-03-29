@@ -236,11 +236,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. Mobile Menu Toggle
     const menuToggle = document.getElementById('mobile-menu');
     const navLinksList = document.querySelector('.nav-links');
+    const menuOverlay = document.getElementById('menu-overlay');
     
-    if (menuToggle && navLinksList) {
-        menuToggle.addEventListener('click', () => {
+    if (menuToggle && navLinksList && menuOverlay) {
+        const toggleMenu = () => {
             const isActive = navLinksList.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
             menuToggle.setAttribute('aria-expanded', isActive);
+            
             const icon = menuToggle.querySelector('i');
             if (isActive) {
                 icon.classList.remove('fa-bars');
@@ -249,19 +253,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
-        });
+        };
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
 
         // Close menu when a link is clicked
         const navLinksItems = document.querySelectorAll('.nav-link');
         navLinksItems.forEach(item => {
             item.addEventListener('click', () => {
-                navLinksList.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', false);
-                menuToggle.querySelector('i').classList.remove('fa-times');
-                menuToggle.querySelector('i').classList.add('fa-bars');
+                if (navLinksList.classList.contains('active')) {
+                    toggleMenu();
+                }
             });
         });
     }
+
+    // 7.1 Navbar Hide on Scroll (Mobile optimization)
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        if (window.innerWidth <= 992) {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll <= 0) {
+                navbar.style.transform = 'translateY(0)';
+                return;
+            }
+            
+            if (currentScroll > lastScroll && !navLinksList.classList.contains('active')) {
+                // Scrolling down - hide navbar
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up - show navbar
+                navbar.style.transform = 'translateY(0)';
+            }
+            lastScroll = currentScroll;
+        } else {
+            navbar.style.transform = 'translateY(0)';
+        }
+    });
 
     // 8. Dynamic Projects Loading (Using projects.js)
     const projectsContainer = document.getElementById('projects-container');

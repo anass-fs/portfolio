@@ -33,22 +33,30 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
     <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
-
-    <!-- Theme Toggle -->
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark/Light Mode" title="Dark/Light Mode">
-        <i class="fas fa-moon"></i>
-    </button>
 
     <!-- Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main Navigation">
         <div class="container">
             <a href="#home" class="navbar-brand" aria-label="ANAS Portfolio Home">ANAS</a>
-            <div class="menu-toggle" id="mobile-menu" aria-label="Toggle Mobile Menu" aria-expanded="false">
-                <i class="fas fa-bars" aria-hidden="true"></i>
+            
+            <div class="nav-actions">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark/Light Mode" title="Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="menu-toggle" id="mobile-menu" aria-label="Toggle Mobile Menu" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </div>
             </div>
+
             <ul class="nav-links">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
