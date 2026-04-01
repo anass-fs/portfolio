@@ -170,6 +170,14 @@ p, .text-muted {
     color: var(--primary);
 }
 
+.nav-link.active {
+    color: var(--accent);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
 .menu-toggle {
     display: none;
     color: var(--primary);
@@ -191,6 +199,60 @@ p, .text-muted {
     position: relative;
     padding: 8rem 2rem 4rem;
     text-align: center;
+    overflow: hidden;
+}
+
+.hero::before,
+.hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: floatOrb 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.hero::before {
+    width: 500px;
+    height: 500px;
+    background: var(--accent);
+    top: -10%;
+    right: -10%;
+    animation-delay: 0s;
+}
+
+.hero::after {
+    width: 400px;
+    height: 400px;
+    background: #8b5cf6;
+    bottom: -10%;
+    left: -5%;
+    animation-delay: -4s;
+}
+
+@keyframes floatOrb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Third orb via pseudo-element on hero-content */
+.hero-content::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: #06b6d4;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: floatOrb 10s ease-in-out infinite reverse;
+    pointer-events: none;
+    z-index: -1;
 }
 
 .hero-content {
@@ -417,22 +479,32 @@ p, .text-muted {
 }
 
 .project-header {
-    background: var(--card-bg);
     padding: 6rem 2rem;
     text-align: center;
     border-bottom: 1px solid var(--border);
     transition: var(--transition);
-    opacity: 0.98;
+    position: relative;
+    overflow: hidden;
 }
 
-.project-card:hover .project-header {
-    background: rgba(59, 130, 246, 0.05);
+.project-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    transition: opacity 0.4s ease;
+}
+
+.project-card:hover .project-header::after {
+    opacity: 0.15;
 }
 
 .project-header i {
-    color: var(--accent);
+    color: #ffffff;
     font-size: 5rem;
-    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.3));
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
 }
 
 .project-body {
@@ -629,6 +701,18 @@ p, .text-muted {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
 }
 
+/* ===== Scroll Progress Bar ===== */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), #8b5cf6, #06b6d4);
+    z-index: 10001;
+    transition: width 0.1s linear;
+}
+
 /* ===== Custom Cursor (Pure JS) ===== */
 .cursor { 
     background: var(--accent); 
@@ -661,18 +745,6 @@ p, .text-muted {
     transform: scale(1.8);
     background: rgba(59, 130, 246, 0.15);
     border-color: transparent;
-}
-
-/* ===== Scroll Reveal Animations ===== */
-.reveal-element {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1s cubic-bezier(0.2, 0, 0.2, 1), transform 1s cubic-bezier(0.2, 0, 0.2, 1);
-}
-
-.reveal-element.is-visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* ===== Scroll Reveal Animations ===== */
@@ -833,6 +905,22 @@ button, a, input, textarea {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ===== Enhanced Project Card Hover ===== */
+.project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.project-card:hover::after {
+    opacity: 1;
+}
+
 /* ===== Footer ===== */
 footer {
     border-top: 1px solid var(--border);
@@ -977,11 +1065,6 @@ body.light-mode .project-card:hover {
     border-color: #0d6efd;
 }
 
-body.light-mode .project-header {
-    background: #f8f9fa;
-    border-color: #dee2e6;
-}
-
 body.light-mode .contact-container {
     background: rgba(13, 110, 253, 0.03);
     border-color: #dee2e6;
@@ -1078,16 +1161,6 @@ body.light-mode .menu-toggle:hover {
 body.light-mode .nav-links {
     background: #ffffff;
     border-bottom-color: #dee2e6;
-}
-
-/* Fix project header in light mode */
-body.light-mode .project-header {
-    background: #f8f9fa;
-    border-bottom-color: #dee2e6;
-}
-
-body.light-mode .project-card:hover .project-header {
-    background: rgba(13, 110, 253, 0.08);
 }
 
 /* ===== Complete Light Mode Overrides ===== */
@@ -1194,11 +1267,6 @@ img[data-src] {
 
 img.loaded {
     animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 @keyframes slideInUp {

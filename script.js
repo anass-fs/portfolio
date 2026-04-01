@@ -70,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Navbar background change on scroll
     const navbar = document.querySelector('.navbar');
+    const sections = document.querySelectorAll('section[id]');
+    
     window.addEventListener('scroll', () => {
         const isLightMode = document.body.classList.contains('light-mode');
         
@@ -82,9 +84,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             navbar.style.padding = '1.25rem 0';
-            // Reset to CSS variables
             navbar.style.backgroundColor = '';
         }
+
+        // Active nav link highlighting
+        const scrollPos = window.scrollY + navbar.offsetHeight + 100;
+        sections.forEach(section => {
+            const top = section.offsetTop;
+            const height = section.offsetHeight;
+            const id = section.getAttribute('id');
+            const navLink = document.querySelector(`.nav-link[href="#${id}"]`);
+            
+            if (navLink) {
+                if (scrollPos >= top && scrollPos < top + height) {
+                    navLink.classList.add('active');
+                } else {
+                    navLink.classList.remove('active');
+                }
+            }
+        });
     });
 
     // 4. Smooth scroll for navigation links (Manual handling for offset)
@@ -114,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
-            // Les données vont à Formspree via action="https://formspree.io/f/xyzqvbra"
-            // Validation client en temps réel
+            e.preventDefault();
+
             const inputs = contactForm.querySelectorAll('input, textarea');
             let isValid = true;
 
@@ -151,10 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
-            if (!isValid) {
-                e.preventDefault();
-                return;
-            }
+            if (!isValid) return;
 
             const btn = contactForm.querySelector('#submitBtn');
             const feedback = document.getElementById('formFeedback');
@@ -162,24 +177,34 @@ document.addEventListener('DOMContentLoaded', () => {
             
             btn.innerText = 'Sending...';
             btn.disabled = true;
-            btn.style.animation = 'pulse 0.8s ease-in-out';
 
-            // Formspree handles submission automatically
-            // Just show loading state
-            setTimeout(() => {
-                btn.style.animation = 'none';
-                feedback.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
-                feedback.classList.add('success');
-                feedback.style.animation = 'slideInUp 0.6s ease-out';
+            try {
+                const formData = new FormData(contactForm);
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    feedback.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+                    feedback.classList.add('success');
+                    feedback.classList.remove('error');
+                    contactForm.reset();
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                feedback.textContent = 'Something went wrong. Please try again or email me directly.';
+                feedback.classList.add('error');
+                feedback.classList.remove('success');
+            } finally {
                 btn.innerText = originalText;
                 btn.disabled = false;
-                contactForm.reset();
-                
                 setTimeout(() => {
-                    feedback.classList.remove('success');
-                    feedback.style.animation = 'none';
+                    feedback.classList.remove('success', 'error');
                 }, 5000);
-            }, 1500);
+            }
         });
     }
 
@@ -302,10 +327,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         projectsData.forEach((project, index) => {
             const projectCard = document.createElement('div');
-            projectCard.className = 'project-card';
+            projectCard.className = 'project-card reveal-element';
             projectCard.setAttribute('role', 'listitem');
-            // Add animation delay based on index
-            projectCard.style.animation = `slideInUp 0.6s ease-out ${index * 0.15}s both`;
+            // Add stagger delay
+            projectCard.style.transitionDelay = `${index * 0.1}s`;
             
             const badgesHTML = project.badges.map(badge => `<span class="badge">${badge}</span>`).join('');
             
@@ -314,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : '';
 
             projectCard.innerHTML = `
-                <div class="project-header">
+                <div class="project-header" style="background: ${project.gradient}">
                     <i class="${project.icon}" aria-hidden="true"></i>
                 </div>
                 <div class="project-body">
@@ -332,6 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             projectsContainer.appendChild(projectCard);
 
+            // Observe new card for reveal animation
+            revealOnScroll.observe(projectCard);
+
             // Add hover effect for custom cursor to new elements
             if (cursor && follower && window.innerWidth >= 992) {
                 projectCard.addEventListener('mouseenter', () => {
@@ -344,9 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-        
-        // Re-trigger reveal animation for newly added elements
-        revealElements.forEach(el => revealOnScroll.observe(el));
     }
 
     loadProjects();
@@ -390,12 +415,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 10. Back to Top Button
     const backToTopBtn = document.getElementById('backToTop');
+    const scrollProgress = document.getElementById('scroll-progress');
     
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('show');
         } else {
             backToTopBtn.classList.remove('show');
+        }
+
+        // Scroll progress bar
+        if (scrollProgress) {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = `${scrollPercent}%`;
         }
     });
 

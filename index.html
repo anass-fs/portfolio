@@ -6,7 +6,10 @@
     <meta name="description" content="Professional Portfolio of ANAS - Computer & Network Engineering Student at EMSI | Full-Stack Developer | Networking Specialist">
     <meta name="keywords" content="portfolio, engineer, developer, full-stack, networking, Java, PHP, JavaScript, React">
     <meta name="author" content="ANAS">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#0a0a0a">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='900' font-size='18' fill='%233b82f6'%3EA%3C/text%3E%3C/svg%3E">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -31,8 +34,37 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "ANAS",
+        "url": "https://anass-fs.github.io/",
+        "jobTitle": "Computer & Network Engineering Student",
+        "description": "Full-Stack Developer and Networking Specialist studying at EMSI",
+        "sameAs": [
+            "https://github.com/anass-fs",
+            "https://www.linkedin.com/in/anass-zaari"
+        ],
+        "knowsAbout": ["Full-Stack Development", "Network Engineering", "Java", "PHP", "JavaScript", "React", "Symfony"],
+        "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "EMSI"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Casablanca",
+            "addressCountry": "Morocco"
+        }
+    }
+    </script>
 </head>
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
     <!-- Mobile Menu Overlay -->
     <div class="menu-overlay" id="menu-overlay"></div>
 
