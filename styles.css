@@ -36,6 +36,27 @@ body {
     overflow-x: hidden;
 }
 
+body::before {
+    content: 'algorithmic thinking || problem solving || system design ~ architecture ^ scalability * performance @ efficiency = innovation ! creativity | logic + mathematics > data structures { algorithms } < complexity > O(n) || O(log n) ^ optimization | refactoring ~ clean code || solid principles : yagni || kiss || dry { patterns } < singleton > factory || builder | observer || strategy ^ decorator || adapter > proxy : facade || bridge @ composite < chain > responsibility || command ! memento || iterator | visitor || state > interpreter ^ flyweight || proxy || decorator | façade ~ adapter || bridge || composite ^ composite || decorator || facade || flyweight || proxy | builder || factory || prototype ^ abstract factory || singleton || static factory | builder || factory || prototype | abstract factory || builder || factory || prototype || singleton || static factory | observer || strategy || command || state || template method ^ adapter || bridge || composite || decorator || facade || flyweight || proxy | chain || command || iterator || mediator || memento || observer || state || strategy || template method || visitor | visitor || interpreter || memento || command || state || strategy || template method || observer || bridge || builder || factory || prototype || abstract factory || singleton || static factory || flyweight || proxy || facade || adapter || decorator || composite';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: rgba(59, 130, 246, 0.025);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    line-height: 1.6;
+    text-align: justify;
+    letter-spacing: 1px;
+    padding: 2rem;
+}
+
 .container {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -725,6 +746,7 @@ p, .text-muted {
     pointer-events: none;
     z-index: 9999;
     will-change: transform;
+    display: none;
 }
 
 .cursor-follower { 
@@ -739,6 +761,13 @@ p, .text-muted {
     z-index: 9998;
     transition: transform 0.15s ease-out, background 0.3s, border 0.3s;
     will-change: transform;
+    display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cursor, .cursor-follower {
+        display: block;
+    }
 }
 
 .cursor-grow {
@@ -1259,7 +1288,9 @@ body.light-mode .typing-cursor {
     color: #0d6efd;
 }
 
-/* ===== Lazy Loading Images ===== */
+body.light-mode::before {
+    color: rgba(13, 110, 253, 0.03);
+}
 img[data-src] {
     background: var(--card-bg);
     animation: pulse 2s infinite;

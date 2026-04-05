@@ -9,6 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.querySelector('.cursor');
     const follower = document.querySelector('.cursor-follower');
     
+    // Hide cursor elements on mobile only
+    const isMobile = window.innerWidth < 992 || ('ontouchstart' in window && window.innerWidth < 992);
+    if (isMobile) {
+        if (cursor) cursor.style.display = 'none';
+        if (follower) follower.style.display = 'none';
+    }
+    
     let mouseX = 0, mouseY = 0;
     let cursorX = 0, cursorY = 0;
     let followerX = 0, followerY = 0;
