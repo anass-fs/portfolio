@@ -1,5 +1,15 @@
 const projectsData = [
     {
+        "title": "NextGen - DevConnect",
+        "description": "Professional social network for developers built with Django 5. Project sharing, networking, stories, messaging and real-time notifications.",
+        "icon": "fas fa-users",
+        "isNew": true,
+        "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+        "badges": ["Python", "Django 5", "MySQL", "Railway"],
+        "github": "https://github.com/anass-fs/nextgen",
+        "demo": "https://nextgen-app.up.railway.app/"
+    },
+    {
         "title": "Backoffice E-commerce",
         "description": "Complete web backoffice for online store management. Java, Spring Boot, MySQL.",
         "icon": "fas fa-shopping-cart",

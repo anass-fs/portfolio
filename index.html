@@ -101,12 +101,22 @@
 
     <!-- Section Hero -->
     <section id="home" class="hero" role="banner" aria-label="Welcome Section">
+        <div class="hero-grid-overlay" aria-hidden="true"></div>
         <div class="hero-content">
-            <h1 class="reveal-element stagger-1">Aspiring <span id="typing-text" aria-live="polite"></span><span class="typing-cursor" aria-hidden="true">|</span></h1>
+            <div class="hero-badge reveal-element">
+                <span class="dot" aria-hidden="true"></span>
+                <span>Available for internship — July 2026</span>
+            </div>
+            <h1 class="reveal-element stagger-1">Aspiring <span id="typing-text" class="gradient-text" aria-live="polite"></span><span class="typing-cursor" aria-hidden="true">|</span></h1>
             <p class="reveal-element stagger-2">Computer & Network Engineering Student at EMSI | 3rd Year</p>
             <div class="hero-btns reveal-element stagger-3">
                 <a href="#projects" class="btn-primary-zak" aria-label="View My Work - Navigate to Projects Section">View My Work</a>
                 <a href="https://drive.google.com/file/d/1xHHCDoHBneSHsE5vm3JZtkq1zgB7zaCM/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-outline-zak" aria-label="View My CV"><i class="fas fa-eye mr-2" aria-hidden="true"></i> View My CV</a>
+            </div>
+            <div class="hero-meta">
+                <span class="chip"><i class="fas fa-map-marker-alt"></i> Casablanca, Morocco</span>
+                <span class="chip"><i class="fas fa-graduation-cap"></i> EMSI · 3rd Year IIR</span>
+                <span class="chip"><i class="fas fa-code"></i> Full-Stack Developer</span>
             </div>
         </div>
     </section>
@@ -114,6 +124,7 @@
     <!-- Section About -->
     <section id="about" class="py-10" role="region" aria-label="About Me Section">
         <div class="container">
+            <div class="section-kicker reveal-element">Who I am</div>
             <h2 class="reveal-element">ABOUT<span>ME</span></h2>
             <div class="grid-2">
                 <div class="reveal-element stagger-1">
@@ -126,7 +137,7 @@
                 </div>
                 <div class="stats-grid reveal-element stagger-2">
                     <div class="stat-card">
-                        <h3>4</h3>
+                        <h3>5</h3>
                         <p class="text-uppercase small fw-bold mt-2">Projects</p>
                     </div>
                     <div class="stat-card">
@@ -141,45 +152,46 @@
     <!-- Section Tech Stack -->
     <section id="tech-stack" class="py-10" role="region" aria-label="Technical Skills Section">
         <div class="container">
+            <div class="section-kicker reveal-element">What I use</div>
             <h2 class="reveal-element">TECH<span>STACK</span></h2>
             <div class="tech-grid reveal-element stagger-1" role="list">
-                <div class="tech-item" role="listitem">
+                <div class="tech-item" role="listitem" data-tooltip="Semantic markup & modern CSS">
                     <i class="fab fa-html5"></i>
                     <span>HTML5 / CSS3</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="ES6+ / DOM / Async">
                     <i class="fab fa-js"></i>
                     <span>JavaScript</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Spring Boot / OOP">
                     <i class="fab fa-java"></i>
                     <span>Java</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Systems programming">
                     <i class="fas fa-code"></i>
                     <span>C / C++</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Symfony / MVC / APIs">
                     <i class="fab fa-php"></i>
                     <span>PHP / Symfony</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Hooks / Components">
                     <i class="fab fa-react"></i>
                     <span>React.js</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Relational DBs & stored procedures">
                     <i class="fas fa-database"></i>
                     <span>MySQL / PL-SQL</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Shell / Server administration">
                     <i class="fab fa-linux"></i>
                     <span>Linux</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Django 5 / REST / ORM">
                     <i class="fab fa-python"></i>
                     <span>Python / Django</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-item" data-tooltip="Cisco / Routing & Switching">
                     <i class="fas fa-network-wired"></i>
                     <span>Networking</span>
                 </div>
@@ -190,6 +202,7 @@
     <!-- Section Projects -->
     <section id="projects" class="py-10" role="region" aria-label="Portfolio Projects Section">
         <div class="container">
+            <div class="section-kicker reveal-element">Selected projects</div>
             <h2 class="reveal-element">MY<span>WORK</span></h2>
             <div id="projects-container" class="grid-auto reveal-element stagger-1" role="list">
                 <!-- Projects will be loaded dynamically from projects.json -->
@@ -201,6 +214,7 @@
     <!-- Section Contact -->
     <section id="contact" class="py-10" role="region" aria-label="Contact Form Section">
         <div class="container">
+            <div class="section-kicker reveal-element">Let's talk</div>
             <h2 class="reveal-element">GET IN<span>TOUCH</span></h2>
             
             <!-- Contact Info -->

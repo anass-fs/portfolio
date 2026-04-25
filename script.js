@@ -336,16 +336,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const projectCard = document.createElement('div');
             projectCard.className = 'project-card reveal-element';
             projectCard.setAttribute('role', 'listitem');
-            // Add stagger delay
-            projectCard.style.transitionDelay = `${index * 0.1}s`;
-            
+            projectCard.style.transitionDelay = `${index * 0.08}s`;
+
             const badgesHTML = project.badges.map(badge => `<span class="badge">${badge}</span>`).join('');
-            
-            const demoLinkHTML = project.demo && project.demo !== "" 
-                ? `<a href="${project.demo}" target="_blank" aria-label="Live Demo for ${project.title}" rel="noopener noreferrer"><i class="fas fa-external-link-alt" aria-hidden="true"></i></a>` 
+
+            const ribbonHTML = project.isNew ? `<span class="ribbon">New</span>` : '';
+
+            const hasDemo = project.demo && project.demo !== "" && project.demo !== "#";
+            const demoBtnHTML = hasDemo
+                ? `<a href="${project.demo}" target="_blank" rel="noopener noreferrer" class="action-live" aria-label="Live Demo for ${project.title}"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo</a>`
                 : '';
+            const codeBtnHTML = `<a href="${project.github}" target="_blank" rel="noopener noreferrer" class="action-code" aria-label="Source code for ${project.title}"><i class="fab fa-github" aria-hidden="true"></i> Source Code</a>`;
 
             projectCard.innerHTML = `
+                ${ribbonHTML}
                 <div class="project-header" style="background: ${project.gradient}">
                     <i class="${project.icon}" aria-hidden="true"></i>
                 </div>
@@ -355,19 +359,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="badges">
                         ${badgesHTML}
                     </div>
-                    <div class="project-links">
-                        <a href="${project.github}" target="_blank" aria-label="GitHub Repository for ${project.title}" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i></a>
-                        ${demoLinkHTML}
+                    <div class="project-actions">
+                        ${codeBtnHTML}
+                        ${demoBtnHTML}
                     </div>
                 </div>
             `;
-            
+
             projectsContainer.appendChild(projectCard);
 
             // Observe new card for reveal animation
             revealOnScroll.observe(projectCard);
 
-            // Add hover effect for custom cursor to new elements
+            // Mouse-follow radial glow via CSS variables --mx/--my
+            projectCard.addEventListener('mousemove', (e) => {
+                const rect = projectCard.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                projectCard.style.setProperty('--mx', `${x}%`);
+                projectCard.style.setProperty('--my', `${y}%`);
+            });
+
+            // Subtle 3D tilt effect (desktop only)
+            if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                projectCard.classList.add('tilt');
+                projectCard.addEventListener('mousemove', (e) => {
+                    const rect = projectCard.getBoundingClientRect();
+                    const px = (e.clientX - rect.left) / rect.width - 0.5;
+                    const py = (e.clientY - rect.top) / rect.height - 0.5;
+                    projectCard.style.setProperty('--ry', `${px * 6}deg`);
+                    projectCard.style.setProperty('--rx', `${-py * 6}deg`);
+                });
+                projectCard.addEventListener('mouseleave', () => {
+                    projectCard.style.setProperty('--ry', `0deg`);
+                    projectCard.style.setProperty('--rx', `0deg`);
+                });
+            }
+
+            // Custom cursor interaction
             if (cursor && follower && window.innerWidth >= 992) {
                 projectCard.addEventListener('mouseenter', () => {
                     follower.classList.add('cursor-grow');
