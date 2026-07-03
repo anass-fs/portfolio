@@ -1,43 +1,62 @@
-# 🚀 Portfolio d'Ingénierie - ANAS
+# 🚀 Professional Engineering Portfolio - ANAS
 
-Bienvenue sur le dépôt de mon portfolio professionnel. Ce site est conçu pour présenter mes compétences en ingénierie informatique et réseaux, mes projets ainsi que mon parcours académique à l'EMSI.
+A modern, high-performance, and accessibility-focused developer portfolio built for recruiters and technical collaborators. This portfolio showcases my journey as a Software Engineering student at EMSI, focusing on full-stack web applications with Django, Spring Boot, and MySQL.
 
-## ✨ Caractéristiques
+## ✨ Key Features
 
-- **Design Moderne & Minimaliste** : Thème sombre avec des accents bleus pour une lecture agréable.
-- **Entièrement Responsive** : Adapté aux mobiles, tablettes et ordinateurs.
-- **Chargement Dynamique des Projets** : Utilisation de `projects.js` pour une gestion simplifiée sans base de données.
-- **Expérience Utilisateur (UX)** : Curseur personnalisé, animations fluides au scroll et effet "typewriter" sur l'en-tête.
-- **Performance** : Développé en HTML5, CSS3 et JavaScript pur (Vanilla JS), sans dépendances lourdes.
+- **Modern & Premium UI/UX**: Clean, minimalist design with smooth animations and glassmorphism effects.
+- **Dark/Light Theme**: Fully integrated theme support with persistent user preference.
+- **Dynamic Project Rendering**: Projects are loaded from a central `projects.js` file for easy management.
+- **Accessibility (A11y)**: Semantic HTML5, keyboard navigability, and ARIA labels throughout.
+- **SEO Optimized**: Complete meta tags, Open Graph support, and JSON-LD structured data.
+- **Fully Responsive**: Optimized for all devices, from mobile phones to ultra-wide monitors.
+- **Interactive Elements**: Custom cursor (desktop), typewriter effect, and scroll-reveal animations.
 
-## 🛠️ Stack Technique
+## 🛠️ Technologies Used
 
-- **Frontend** : HTML5, CSS3, JavaScript (ES6+)
-- **Icônes** : Font Awesome 6
-- **Polices** : Google Fonts (Inter)
+- **Frontend**: HTML5, CSS3 (Vanilla), JavaScript (ES6+)
+- **Icons**: Font Awesome 6
+- **Fonts**: Space Grotesk (Headings), IBM Plex Sans (Body)
+- **Deployment**: Optimized for GitHub Pages
 
-## 📁 Structure du Projet
+## 📁 Project Structure
 
 ```text
-├── index.html       # Page principale
-├── styles.css       # Styles personnalisés
-├── script.js        # Logique d'animation et UX
-├── projects.js      # Base de données des projets (JSON format)
-└── README.md        # Documentation
+├── index.html       # Core structure and semantic markup
+├── styles.css       # Organized modular CSS (Variables, Components, Sections)
+├── script.js        # Core logic, animations, and interactivity
+├── projects.js      # Central data store for portfolio projects
+└── README.md        # Technical documentation
 ```
 
-## 🚀 Installation & Utilisation
+## 🚀 Getting Started
 
-1. Clonez le dépôt :
+### Local Development
+1. Clone the repository:
    ```bash
    git clone https://github.com/anass-fs/portfolio.git
    ```
-2. Ouvrez `index.html` dans votre navigateur ou utilisez une extension comme **Live Server** sur VS Code.
+2. Open `index.html` in your browser.
+3. *Recommendation*: Use the **Live Server** extension in VS Code for a better development experience.
+
+### Customization
+- **Projects**: Update `projects.js` to add or modify your work.
+- **Personal Info**: Replace names, links, and contact details in `index.html`.
+- **Assets**: Add your CV and Open Graph image to an `assets/` folder.
+
+## 🌐 Deployment
+
+This portfolio is designed to be hosted on **GitHub Pages**:
+1. Push your code to a GitHub repository.
+2. Go to **Settings > Pages**.
+3. Select the branch and folder (usually `main` / `/(root)`) and click **Save**.
+4. Your site will be live at `https://<username>.github.io/<repo-name>/`.
 
 ## 📧 Contact
 
-- **LinkedIn** : [anass-zaari](https://www.linkedin.com/in/anass-zaari)
-- **GitHub** : [anass-fs](https://github.com/anass-fs)
+- **LinkedIn**: [anass-zaari](https://www.linkedin.com/in/anass-zaari)
+- **GitHub**: [anass-fs](https://github.com/anass-fs)
+- **Email**: zaaria46@gmail.com
 
 ---
-*Construit avec passion et précision par ANAS.*
+*Built with passion and precision by ANAS.*
