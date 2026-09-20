@@ -236,6 +236,7 @@
         const tabs = $$('[role="tab"]', g);
         const select = (tab) => {
             tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+            main.style.animation = 'none'; void main.offsetWidth; main.style.animation = '';
             main.src = tab.dataset.src; main.alt = tab.dataset.alt || '';
         };
         tabs.forEach((t) => t.addEventListener('click', () => select(t)));

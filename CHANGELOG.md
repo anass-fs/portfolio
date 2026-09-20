@@ -14,6 +14,8 @@ Rebuilt the page for a recruiter-first reading, keeping the visual identity (dar
 - Light theme follows `prefers-color-scheme` on first visit; toggle persisted.
 
 ### Changed
+- Hero and About copy made project-agnostic and more formal; stats no longer reference the internship.
+- New geometric AZ monogram (header + favicon) with hover draw animation; added motion layer: staggered reveals, section underline, floating hero visual, shimmer accent, card/gallery transitions — all disabled under prefers-reduced-motion.
 - Academic year updated: 4th year (4IIR), AI & Data specialisation.
 - Copy rewritten: shorter, concrete, past tense for the internship (22 Jun – 22 Jul 2026), "Open to internships — summer 2027".
 - Experience timeline with four measurable bullets per entry; skills regrouped (Backend / Frontend / Data & AI / Tools).
