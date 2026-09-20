@@ -55,6 +55,7 @@ const projectsData = [
         stack: ['Django', 'Python', 'MySQL', 'Tailwind CSS'],
         category: 'fullstack',
         year: '2026',
+        image: 'assets/projects/emsi-learn.webp',
         icon: 'i-grad',
         github: 'https://github.com/anass-fs/EMSI-LEARN',
         demo: ''
@@ -69,6 +70,7 @@ const projectsData = [
         stack: ['Django 5', 'Python', 'MySQL'],
         category: 'fullstack',
         year: '2025',
+        image: 'assets/projects/nextgen.webp',
         icon: 'i-users',
         github: 'https://github.com/anass-fs/nextgen',
         demo: ''
@@ -98,6 +100,7 @@ const projectsData = [
         stack: ['PHP', 'Symfony 6', 'MySQL'],
         category: 'backend',
         year: '2024',
+        image: 'assets/projects/santeplus.webp',
         icon: 'i-plus-circle',
         github: 'https://github.com/anass-fs/project-php',
         demo: '' // TODO(anass): public walkthrough video link
@@ -112,6 +115,7 @@ const projectsData = [
         stack: ['C', 'Algorithms', 'File I/O'],
         category: 'systems',
         year: '2024',
+        image: 'assets/projects/hotel.webp',
         icon: 'i-bed',
         github: 'https://github.com/anass-fs/hotel-reservation-c',
         demo: ''

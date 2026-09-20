@@ -37,5 +37,5 @@ visitor's email client with the message pre-filled.
 
 - [ ] `TODO_FORM_ID` → real Formspree form id (`index.html`)
 - [ ] `demo` URL of the BINGA project → unlisted YouTube link of the 78 s demo (`projects.js`)
-- [ ] Optional screenshots: `assets/projects/emsi-learn.webp`, `nextgen.webp`, `santeplus.webp`, `hotel.webp`, `portfolio.webp` — then add `image: 'assets/projects/<id>.webp'` to the project in `projects.js`
+- [ ] Optional screenshot of this site: `assets/projects/portfolio.webp` — then add `image: 'assets/projects/portfolio.webp'` to the `portfolio` project in `projects.js`
 - [ ] SantéPlus: public walkthrough video link (`projects.js`)

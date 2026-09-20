@@ -7,6 +7,7 @@
 | `binga.webp` | Hero visual, featured gallery (dashboard) |
 | `binga-merchants.webp`, `binga-form.webp`, `binga-pdf.webp`, `binga-assistant.webp` | Featured gallery |
 | `techstore.webp` | TechStore card |
-| `emsi-learn.webp`, `nextgen.webp`, `santeplus.webp`, `hotel.webp`, `portfolio.webp` | Optional — add the file, then set `image` on the project in `projects.js` |
+| `emsi-learn.webp`, `nextgen.webp`, `santeplus.webp`, `hotel.webp` | Project cards |
+| `portfolio.webp` | Optional — add the file, then set `image` on the `portfolio` project in `projects.js` |
 
 A project without an image gets a designed cover (icon + name) automatically.
