@@ -1,40 +1,23 @@
 # Changelog
 
-All notable changes to this portfolio. Format loosely follows
-[Keep a Changelog](https://keepachangelog.com/), except this project has no releases.
+## 2026-09-20 — improve-portfolio
 
-## [Unreleased]
+Rebuilt the page for a recruiter-first reading, keeping the visual identity (dark theme, orange accent, Space Grotesk / IBM Plex Sans).
 
 ### Added
-- New featured **BINGA — Merchant Contract Management** project card, with ground-truth
-  details: Spring Boot 3, Angular 20, Spring Security (JWT + 2FA + reCAPTCHA), Ollama
-  (bge-m3 + Qwen2.5), iText / Apache POI. Demo and screenshot links pending (`TODO(anass)`).
-- **Experience timeline** section (`#experience`) with the Berkeley Systems internship
-  (22 Jun – 22 Jul 2026, defended 16 Sept 2026) and EMSI education (2023–2028, 3IIR).
-- **Project detail modal** — click "Details" on any card for architecture, impact and
-  full feature list; keyboard/Escape/backdrop dismissible with focus restore.
-- **Working contact form** — posts to Formspree via fetch, with honeypot, inline
-  validation, success/error states and an email fallback link.
-- About section: "What I'm looking for" and "Currently learning" tag lists.
-- Inline **SVG icon sprite** replacing Font Awesome (37 icons, zero external requests).
-- New meta/SEO layer: canonical URL, Open Graph + Twitter cards, JSON-LD `Person` schema,
-  `robots.txt`, `sitemap.xml`, `site.webmanifest`, `assets/favicon.svg`, generated
-  `og-image.png` and `apple-touch-icon.png`.
-- Accessibility: skip link, one `h1`, `aria-pressed` filters, live region for project
-  results, `prefers-reduced-motion` support, focus-visible outlines.
-- Performance: scripts deferred, images lazy-loaded, font `display=swap` + preconnect,
-  hero typewriter height reserved, project counter computed from data.
+- Hero with a real screenshot of the BINGA back-office (browser frame) instead of an animated headline.
+- **Featured project** section for BINGA: 5-screen gallery (dashboard, merchants, contract form, PDF export, AI assistant), context, what I built, three measured results, stack.
+- Real screenshots for BINGA and TechStore (`assets/projects/*.webp`); designed cover fallback for projects without a screenshot.
+- Category filters (All / Full-stack / Backend / Frontend / Systems) instead of one chip per technology.
+- Project detail modal with focus trap; keyboard-navigable gallery tabs.
+- Formspree contact form with validation, honeypot and a mailto fallback while the form id is not configured.
+- Light theme follows `prefers-color-scheme` on first visit; toggle persisted.
 
 ### Changed
-- Brand renamed from "ANAS" to **Anass Zaari** across all text, meta, JSON-LD and footer.
-- Projects bring their own gradient + image; TechStore card merged; NextGen dead demo link
-  removed; SantéPlus broken video link removed (`TODO(anass)` for a new one); portfolio
-  demo link fixed.
-- Hero subtitle + marquee updated to accurate stack (browser shows Angular, not React).
-- Tech Stack regrouped into four categories (Frontend / Backend / Databases & Security / AI & Tools).
-- Nav renamed (Skills, Work, Experience labels) with a new Experience entry.
-- README rewritten; added `.editorconfig` and this file.
+- Copy rewritten: shorter, concrete, past tense for the internship (22 Jun – 22 Jul 2026), "Open to internships — summer 2027".
+- Experience timeline with four measurable bullets per entry; skills regrouped (Backend / Frontend / Data & AI / Tools).
+- Navigation: About · Featured · Projects · Experience · Skills · Contact + Résumé button.
+- Page shortened (~35 % less scroll), fewer animations (no custom cursor, marquee or typewriter).
 
-## [V2] — 2026
-
-Baseline. Font Awesome icons, demo contact form, hard-coded project counter, "ANAS" brand.
+### Removed
+- Custom cursor, marquee, typewriter, per-technology filter chips, empty gradient card headers.

@@ -1,161 +1,141 @@
 /**
+ * Project data — single source of truth for the "Work" section.
+ *
  * @typedef {Object} Project
- * @property {string} title        – Project name (keeps French spelling when applicable, e.g. "SantéPlus")
- * @property {string} description  – One-sentence problem → solution
- * @property {string[]} features   – 3–4 concrete highlights (max 4 shown on card)
- * @property {string} icon         – <symbol> id suffix from the inline SVG sprite (e.g. "briefcase")
- * @property {string} image        – Path under assets/projects/*.webp (1200×675). Empty string → gradient only.
- * @property {boolean} isNew       – Show the "New" pill
- * @property {boolean} isFeatured  – Bento-style full-width card (only when filter === "All")
- * @property {string} gradient     – CSS gradient for the card header (used as --card-gradient)
- * @property {string[]} badges     – Tech badge labels (also drive the filter chips)
- * @property {string} github       – Source link; empty string when the repo is private/none
- * @property {string} demo         – Live demo / video link; empty string when none
- * @property {string} impact       – Short 2-line impact stat line (optional)
- * @property {string} architecture – One-line architecture summary (optional, shown in modal)
+ * @property {string}   id           Stable slug (used for DOM ids and the modal).
+ * @property {string}   title
+ * @property {string}   tagline      One line: what it is, for whom.
+ * @property {string}   description  2–3 sentences, problem → solution.
+ * @property {string[]} highlights   Max 4 short bullets.
+ * @property {string[]} stack        Technology chips (max 5).
+ * @property {string}   category     One of: fullstack | backend | frontend | systems
+ * @property {string}   year
+ * @property {string}   [image]      Optional 1200×675 screenshot in assets/projects/. Falls back to a designed cover.
+ * @property {string}   icon         Sprite symbol id used on the cover / modal.
+ * @property {string}   [github]     Source URL ("" when private).
+ * @property {string}   [demo]       Live demo or video URL ("" when none).
+ * @property {string}   [role]       Short role line (for the modal).
+ * @property {boolean}  [featured]
  */
 
 /** @type {Project[]} */
 const projectsData = [
     {
-        "title": "BINGA — Merchant Contract Management",
-        "description": "BINGA is Morocco's first cash-payment channel (binga.ma). As a Software Engineering Intern at Berkeley Systems (Casablanca), I built the internal web app that manages the contracts of affiliated merchants — bank details, pricing and per-channel commissions.",
-        "features": [
-            "Merchant & contract management (bank details, pricing, per-channel commissions)",
-            "Spring Security · JWT (30 min) + refresh (7 days) · 2FA TOTP · reCAPTCHA v2 · backup codes",
-            "100% local AI — bge-m3 semantic search (cosine similarity, Spring Cache 260 ms → 10 ms) + Qwen2.5:3B assistant (Strategy: 1 intent = 1 executor)",
-            "PDF (iText) & Excel (Apache POI) exports · Excel import · KPI dashboard"
+        id: 'binga',
+        title: 'BINGA — Merchant Contract Management',
+        tagline: 'Internal web platform for a Moroccan FinTech · Berkeley Systems internship',
+        description:
+            'BINGA (binga.ma) is the first cash-payment channel on the Internet in Morocco: customers pay online purchases and bills in cash at physical points of sale. ' +
+            'Affiliated merchants have contracts — bank details, pricing and per-channel commissions — that were tracked in scattered Excel files. ' +
+            'I designed and built the internal application that centralises and secures them.',
+        highlights: [
+            'Two-step authentication: credentials + reCAPTCHA v2, then TOTP code (Google Authenticator); JWT access & refresh tokens, backup codes',
+            'Merchant, bank, pricing and per-channel commission management with PDF (iText) and Excel (Apache POI) exports and Excel import',
+            'Semantic search on bge-m3 embeddings (cosine similarity, Spring Cache: 260 ms → 10 ms) — 100 % local through Ollama',
+            'Conversational assistant on Qwen2.5:3B with a Strategy pattern: one intent, one executor — the LLM never touches the database'
         ],
-        "icon": "briefcase",
-        "image": "assets/projects/binga.webp",
-        "isNew": true,
-        "isFeatured": true,
-        "gradient": "linear-gradient(135deg, #ff6a3d 0%, #ffd166 100%)",
-        "badges": ["Spring Boot 3", "Angular 20", "MySQL", "Spring Security · JWT · 2FA", "Ollama · bge-m3 · Qwen2.5", "iText / Apache POI"],
-        "github": "",
-        // TODO(anass): paste the unlisted YouTube URL of the 78 s demo video
-        "demo": "",
-        "impact": "Replaced Excel-based contract tracking · 14/14 functional test cases · semantic search 260 ms → 10 ms cached (relevance: 100% exact · ~85% approximate · ~80% natural language on 20 queries)",
-        "architecture": "Spring Boot 3 / Java 17 REST API · Angular 20 + Bootstrap 5 · MySQL 8 (JPA/Hibernate) · Ollama local LLMs"
+        stack: ['Spring Boot 3', 'Angular 20', 'MySQL 8', 'Spring Security · JWT · 2FA', 'Ollama · bge-m3 · Qwen2.5'],
+        category: 'fullstack',
+        year: 'Jun – Jul 2026',
+        role: 'Software Engineering Intern — sole developer of the module, supervised by a project manager and a full-stack engineer',
+        image: 'assets/projects/binga.webp',
+        gallery: ['assets/projects/binga.webp', 'assets/projects/binga-merchants.webp', 'assets/projects/binga-form.webp', 'assets/projects/binga-pdf.webp', 'assets/projects/binga-assistant.webp'],
+        icon: 'i-briefcase',
+        github: '',
+        demo: '', // TODO(anass): unlisted YouTube URL of the 78 s demo video
+        featured: true
     },
     {
-        "title": "EMSILearn — LMS",
-        "description": "A learning management system for EMSI: multi-role dashboards for students, teachers and admins with course management, secure file sharing and real-time grade tracking.",
-        "features": [
-            "Multi-role authentication",
-            "Course & content management",
-            "Interactive gradebook",
-            "Secure file storage"
-        ],
-        "icon": "grad",
-        "image": "assets/projects/emsi-learn.webp",
-        "isNew": true,
-        "isFeatured": false,
-        "gradient": "linear-gradient(135deg, #0ea5e9 0%, #7c3aed 100%)",
-        "badges": ["Django", "Python", "MySQL", "Tailwind CSS"],
-        "github": "https://github.com/anass-fs/EMSI-LEARN",
-        "demo": "",
-        "impact": "",
-        "architecture": "Django · MySQL · Tailwind CSS"
+        id: 'emsi-learn',
+        title: 'EMSI Learn — Learning Management System',
+        tagline: 'Course platform with student, teacher and admin spaces',
+        description:
+            'A learning management system for EMSI: multi-role dashboards, course and resource management, gradebook and notifications when new material or grades are published.',
+        highlights: ['Multi-role authentication (student / teacher / admin)', 'Course, enrolment and resource management', 'Gradebook and performance tracking', 'Notification system'],
+        stack: ['Django', 'Python', 'MySQL', 'Tailwind CSS'],
+        category: 'fullstack',
+        year: '2026',
+        icon: 'i-grad',
+        github: 'https://github.com/anass-fs/EMSI-LEARN',
+        demo: ''
     },
     {
-        "title": "NextGen — DevConnect",
-        "description": "A professional social network for developers: project collaboration, real-time messaging and community building through shared technical stories.",
-        "features": [
-            "Project collaboration",
-            "Real-time messaging",
-            "Developer profiles",
-            "Social feed"
-        ],
-        "icon": "users",
-        "image": "assets/projects/nextgen.webp",
-        "isNew": true,
-        "isFeatured": false,
-        "gradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-        "badges": ["Django", "Python", "MySQL"],
-        "github": "https://github.com/anass-fs/nextgen",
-        "demo": "",
-        "impact": "",
-        "architecture": "Django · MySQL"
+        id: 'nextgen',
+        title: 'NextGen — Developer Social Network',
+        tagline: 'Profiles, feed, stories, messaging and notifications',
+        description:
+            'A professional social network for developers built with Django 5: profiles, project sharing, a social feed with stories, real-time messaging and notifications, on a modular architecture designed to grow.',
+        highlights: ['Developer profiles and project showcase', 'Social feed and stories', 'Real-time messaging', 'Notification system'],
+        stack: ['Django 5', 'Python', 'MySQL'],
+        category: 'fullstack',
+        year: '2025',
+        icon: 'i-users',
+        github: 'https://github.com/anass-fs/nextgen',
+        demo: ''
     },
     {
-        "title": "TechStore Back-Office",
-        "description": "A complete back-office web app to run an online store — inventory, orders and customer management — built entirely with vanilla front-end technologies.",
-        "features": [
-            "Inventory management",
-            "Order processing",
-            "Product catalogue",
-            "Dashboard"
-        ],
-        "icon": "store",
-        "image": "assets/projects/techstore.webp",
-        "isNew": false,
-        "isFeatured": false,
-        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        "badges": ["HTML5", "CSS3", "JavaScript ES6+"],
-        "github": "https://github.com/anass-fs/project-java-backoffice",
-        "demo": "https://anass-fs.github.io/project-java-backoffice/",
-        "impact": "",
-        "architecture": "HTML5 · CSS3 · Vanilla JavaScript (ES6+)"
+        id: 'techstore',
+        title: 'TechStore — E-commerce Back-Office',
+        tagline: 'Admin dashboard built in vanilla JavaScript',
+        description:
+            'A complete back-office for an online store — products, customers, orders, invoices, categories and users — with a KPI dashboard and role-based access, written without any framework.',
+        highlights: ['Role-based login (admin / user)', 'Product, order and invoice management', 'Dashboard with charts', 'Dark / light theme, keyboard shortcuts'],
+        stack: ['HTML5', 'CSS3', 'JavaScript ES6+'],
+        category: 'frontend',
+        year: '2024',
+        image: 'assets/projects/techstore.webp',
+        icon: 'i-store',
+        github: 'https://github.com/anass-fs/project-java-backoffice',
+        demo: 'https://anass-fs.github.io/project-java-backoffice/'
     },
     {
-        "title": "SantéPlus — Healthcare Platform",
-        "description": "An online medical appointment-booking platform that connects patients and providers with scheduling, provider availability and patient records.",
-        "features": [
-            "Online appointment booking",
-            "Patient records",
-            "Provider scheduling"
-        ],
-        "icon": "plus-circle",
-        "image": "assets/projects/santeplus.webp",
-        "isNew": false,
-        "isFeatured": false,
-        "gradient": "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
-        "badges": ["PHP", "Symfony", "MySQL"],
-        "github": "https://github.com/anass-fs/project-php",
-        // TODO(anass): public demo / walkthrough video link (the previous Google Docs video is private)
-        "demo": "",
-        "impact": "",
-        "architecture": "PHP · Symfony · MySQL"
+        id: 'santeplus',
+        title: 'SantéPlus — Medical Appointments',
+        tagline: 'Online booking for clinics, patients and practitioners',
+        description:
+            'A Symfony application that digitalises medical appointment booking: authentication, doctor and patient management, time-slot scheduling and appointment history.',
+        highlights: ['Online appointment booking', 'Doctor, patient and slot management', 'Authentication and roles', 'MVC architecture with Doctrine'],
+        stack: ['PHP', 'Symfony 6', 'MySQL'],
+        category: 'backend',
+        year: '2024',
+        icon: 'i-plus-circle',
+        github: 'https://github.com/anass-fs/project-php',
+        demo: '' // TODO(anass): public walkthrough video link
     },
     {
-        "title": "Hotel Management System",
-        "description": "A console application for hotel operations built in C, implementing data structures and algorithms for reservations, billing and room availability.",
-        "features": [
-            "Reservation management",
-            "Automated billing",
-            "Room tracking",
-            "File-based persistence"
-        ],
-        "icon": "bed",
-        "image": "assets/projects/hotel.webp",
-        "isNew": false,
-        "isFeatured": false,
-        "gradient": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-        "badges": ["C", "Algorithms", "File I/O"],
-        "github": "https://github.com/anass-fs/hotel-reservation-c",
-        "demo": "",
-        "impact": "",
-        "architecture": "C (console application)"
+        id: 'hotel',
+        title: 'Hotel Reservation System',
+        tagline: 'Console application in C with file persistence',
+        description:
+            'A C program managing rooms, guests and reservations with file-based persistence, current-booking views and invoice generation — a data-structures and algorithms exercise.',
+        highlights: ['Room, guest and reservation management', 'Invoice generation', 'File I/O persistence'],
+        stack: ['C', 'Algorithms', 'File I/O'],
+        category: 'systems',
+        year: '2024',
+        icon: 'i-bed',
+        github: 'https://github.com/anass-fs/hotel-reservation-c',
+        demo: ''
     },
     {
-        "title": "Professional Portfolio",
-        "description": "This site — a vanilla HTML/CSS/JS portfolio optimized for performance, accessibility and SEO, deployed on GitHub Pages.",
-        "features": [
-            "Responsive design",
-            "Dark / light mode",
-            "Dynamic projects & filters",
-            "SEO + accessibility"
-        ],
-        "icon": "layout",
-        "image": "assets/projects/portfolio.webp",
-        "isNew": false,
-        "isFeatured": false,
-        "gradient": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-        "badges": ["HTML5", "CSS3", "JavaScript"],
-        "github": "https://github.com/anass-fs/portfolio",
-        "demo": "https://anass-fs.github.io/portfolio/",
-        "impact": "",
-        "architecture": "HTML5 · CSS3 · Vanilla JavaScript (ES6+)"
+        id: 'portfolio',
+        title: 'This Portfolio',
+        tagline: 'Static, accessible, dependency-free',
+        description:
+            'Hand-written HTML, CSS and JavaScript: dark and light themes, inline SVG icons, project modal, working contact form, structured data and Open Graph tags. Hosted on GitHub Pages.',
+        highlights: ['No framework, no build step', 'Accessible (keyboard, reduced motion, contrast)', 'SEO: JSON-LD, Open Graph, sitemap'],
+        stack: ['HTML5', 'CSS3', 'JavaScript'],
+        category: 'frontend',
+        year: '2026',
+        icon: 'i-code',
+        github: 'https://github.com/anass-fs/portfolio',
+        demo: 'https://anass-fs.github.io/portfolio/'
     }
+];
+
+const projectCategories = [
+    { id: 'all', label: 'All' },
+    { id: 'fullstack', label: 'Full-stack' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'systems', label: 'Systems' }
 ];

@@ -1,618 +1,314 @@
-/**
- * Anass Zaari — Portfolio Script
- * Pure JavaScript, optimized for performance and accessibility.
- */
-
-(function () {
+/* Anass Zaari — portfolio
+   Vanilla JS, no dependencies. Sections: theme, header/nav, reveal + counters,
+   projects (filters, cards, modal), featured gallery, contact form, misc. */
+(() => {
     'use strict';
 
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    document.addEventListener('DOMContentLoaded', () => {
-        initCustomCursor();
-        initScrollReveal();
-        initMobileMenu();
-        initThemeToggle();
-        initNavigation();
-        initProjects();
-        initProjectModal();
-        initContactForm();
-        initTypewriter();
-        initBackToTop();
-    });
+    const store = {
+        get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+        set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } }
+    };
 
-    /* ── Helpers ─────────────────────────────────────────────────────── */
+    const escapeHTML = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-    function escapeHTML(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
-    }
+    /* ---------- Theme ---------- */
+    function initTheme() {
+        const btn = $('#theme-toggle');
+        const saved = store.get('theme');
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        apply(saved || (prefersLight ? 'light' : 'dark'));
 
-    const storage = (() => {
-        try {
-            const testKey = '__portfolio_test__';
-            window.localStorage.setItem(testKey, '1');
-            window.localStorage.removeItem(testKey);
-            return window.localStorage;
-        } catch (e) {
-            // localStorage unavailable (opaque origin, privacy mode, storage blocked).
-            const memory = {};
-            return {
-                getItem: (k) => (k in memory ? memory[k] : null),
-                setItem: (k, v) => { memory[k] = String(v); },
-                removeItem: (k) => { delete memory[k]; }
-            };
-        }
-    })();
-
-    /* ── 1. Custom Cursor ─────────────────────────────────────────────── */
-
-    function initCustomCursor() {
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-        const bgOrbs = document.querySelectorAll('.bg-orb');
-
-        if (reducedMotion || 'ontouchstart' in window || window.innerWidth < 992) {
-            if (cursor) cursor.style.display = 'none';
-            if (follower) follower.style.display = 'none';
-            return;
-        }
-
-        let mouseX = 0;
-        let mouseY = 0;
-        let followerX = 0;
-        let followerY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-
-            bgOrbs.forEach((orb, i) => {
-                const speed = (i + 1) * 20;
-                const x = (window.innerWidth - e.pageX * speed) / 100;
-                const y = (window.innerHeight - e.pageY * speed) / 100;
-                orb.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-            });
+        btn?.addEventListener('click', () => {
+            const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+            apply(next); store.set('theme', next);
         });
 
-        const moveFollower = () => {
-            if (window.innerWidth < 992) return;
-            followerX += (mouseX - followerX) * 0.15;
-            followerY += (mouseY - followerY) * 0.15;
-            follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
-            requestAnimationFrame(moveFollower);
-        };
-        moveFollower();
-
-        const hoverElements = document.querySelectorAll('a, button, .project-card, .tech-item, .social-icon, .zoom-on-hover');
-        hoverElements.forEach((el) => {
-            el.addEventListener('mouseenter', () => follower.classList.add('cursor-grow'));
-            el.addEventListener('mouseleave', () => follower.classList.remove('cursor-grow'));
-        });
-    }
-
-    /* ── 2. Scroll Reveal ─────────────────────────────────────────────── */
-
-    function initScrollReveal() {
-        const revealElements = document.querySelectorAll('.reveal-element');
-
-        if (reducedMotion) {
-            revealElements.forEach((el) => el.classList.add('is-visible'));
-            return;
-        }
-
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    animateCounters(entry.target);
-                    entry.target.classList.add('is-visible');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-
-        revealElements.forEach((el) => revealObserver.observe(el));
-    }
-
-    function animateCounters(container) {
-        if (reducedMotion) {
-            container.querySelectorAll('.counter-num').forEach((counter) => {
-                counter.innerText = counter.getAttribute('data-target');
-            });
-            return;
-        }
-
-        const counters = container.querySelectorAll('.counter-num');
-        counters.forEach((counter) => {
-            const target = parseInt(counter.getAttribute('data-target'), 10) || 0;
-            const duration = 1600;
-            let start = 0;
-            const increment = target / (duration / 16);
-
-            const updateCount = () => {
-                start += increment;
-                if (start < target) {
-                    counter.innerText = Math.ceil(start);
-                    requestAnimationFrame(updateCount);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            updateCount();
-        });
-    }
-
-    /* ── 3. Mobile Menu ───────────────────────────────────────────────── */
-
-    function initMobileMenu() {
-        const menuToggle = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
-        const menuOverlay = document.getElementById('menu-overlay');
-        const links = document.querySelectorAll('.nav-link');
-
-        if (!menuToggle || !navLinks) return;
-
-        const toggleMenu = (state) => {
-            const isOpen = state !== undefined ? state : !navLinks.classList.contains('active');
-            menuToggle.setAttribute('aria-expanded', isOpen);
-            menuToggle.setAttribute('aria-label', isOpen ? 'Close mobile menu' : 'Open mobile menu');
-            navLinks.classList.toggle('active', isOpen);
-            if (menuOverlay) menuOverlay.classList.toggle('active', isOpen);
-            document.body.style.overflow = isOpen ? 'hidden' : '';
-        };
-
-        menuToggle.addEventListener('click', () => toggleMenu());
-        if (menuOverlay) menuOverlay.addEventListener('click', () => toggleMenu(false));
-
-        links.forEach((link) => link.addEventListener('click', () => toggleMenu(false)));
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-                toggleMenu(false);
+        function apply(theme) {
+            document.documentElement.dataset.theme = theme;
+            if (btn) {
+                const light = theme === 'light';
+                btn.setAttribute('aria-pressed', String(light));
+                btn.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
             }
-        });
+        }
     }
 
-    /* ── 4. Theme Toggle ──────────────────────────────────────────────── */
-
-    function initThemeToggle() {
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        const iconUse = themeToggle ? themeToggle.querySelector('use') : null;
-
-        if (!themeToggle) return;
-
-        const savedTheme = storage.getItem('theme') || 'dark';
-        if (savedTheme === 'light') body.classList.add('light-mode');
-        if (iconUse) iconUse.setAttribute('href', savedTheme === 'light' ? '#i-sun' : '#i-moon');
-
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('light-mode');
-            const isLight = body.classList.contains('light-mode');
-            storage.setItem('theme', isLight ? 'light' : 'dark');
-            if (iconUse) iconUse.setAttribute('href', isLight ? '#i-sun' : '#i-moon');
-        });
-    }
-
-    /* ── 5. Navigation & Scroll Progress ──────────────────────────────── */
-
-    function initNavigation() {
-        const navbar = document.querySelector('.navbar');
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const scrollProgress = document.getElementById('scroll-progress');
+    /* ---------- Header: scrolled state, progress bar, mobile menu, active link ---------- */
+    function initHeader() {
+        const header = $('.site-header');
+        const progress = $('.scroll-progress');
+        const menuBtn = $('#menu-toggle');
+        const links = $('#nav-links');
 
         const onScroll = () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+            const y = window.scrollY;
+            header.classList.toggle('is-scrolled', y > 8);
+            if (progress) {
+                const max = document.documentElement.scrollHeight - window.innerHeight;
+                progress.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
             }
-
-            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-            if (totalScroll > 0 && scrollProgress) {
-                scrollProgress.style.width = `${(window.scrollY / totalScroll) * 100}%`;
-            }
-
-            let current = '';
-            sections.forEach((section) => {
-                const sectionTop = section.offsetTop;
-                if (window.scrollY >= sectionTop - 200) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach((link) => {
-                const target = link.getAttribute('href') ? link.getAttribute('href').slice(1) : '';
-                link.classList.toggle('active', target === current);
-            });
         };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        const setMenu = (open) => {
+            document.body.classList.toggle('menu-open', open);
+            menuBtn.setAttribute('aria-expanded', String(open));
+            menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        };
+        menuBtn?.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+        links?.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.body.classList.contains('menu-open')) setMenu(false); });
+        window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
+
+        // Active section highlighting
+        const navAnchors = $$('#nav-links a');
+        const sections = navAnchors.map((a) => $(a.getAttribute('href'))).filter(Boolean);
+        if ('IntersectionObserver' in window && sections.length) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((en) => {
+                    if (!en.isIntersecting) return;
+                    navAnchors.forEach((a) => a.classList.toggle('is-active', a.getAttribute('href') === `#${en.target.id}`));
+                });
+            }, { rootMargin: '-45% 0px -50% 0px' });
+            sections.forEach((s) => io.observe(s));
+        }
     }
 
-    /* ── 6. Dynamic Projects ──────────────────────────────────────────── */
+    /* ---------- Reveal on scroll + counters ---------- */
+    function initReveal() {
+        const items = $$('.reveal');
+        const counters = $$('[data-count]');
 
-    let lastFocusedCard = null;
+        const runCounter = (el) => {
+            const target = Number(el.dataset.count) || 0;
+            if (reducedMotion) { el.textContent = target; return; }
+            const start = performance.now(); const dur = 900;
+            const tick = (t) => {
+                const p = Math.min((t - start) / dur, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+        };
+
+        if (reducedMotion || !('IntersectionObserver' in window)) {
+            items.forEach((el) => el.classList.add('is-visible'));
+            counters.forEach(runCounter);
+            return;
+        }
+        const io = new IntersectionObserver((entries, obs) => {
+            entries.forEach((en) => {
+                if (!en.isIntersecting) return;
+                en.target.classList.add('is-visible');
+                $$('[data-count]', en.target).forEach((c) => { if (!c.dataset.done) { c.dataset.done = '1'; runCounter(c); } });
+                obs.unobserve(en.target);
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        items.forEach((el) => io.observe(el));
+        // Fail-safe: never leave content hidden (e.g. print, unusual viewports, observer issues)
+        setTimeout(() => items.forEach((el) => el.classList.add('is-visible')), 2500);
+    }
+
+    /* ---------- Projects: filters, cards, modal ---------- */
+    const PROJECTS = typeof projectsData !== 'undefined' ? projectsData : [];
+    const CATEGORIES = typeof projectCategories !== 'undefined' ? projectCategories : [{ id: 'all', label: 'All' }];
+    const byId = (id) => PROJECTS.find((p) => p.id === id);
+
+    function coverHTML(p, lazy = true) {
+        if (p.image) {
+            return `<img class="card-img" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)} — screenshot" width="1200" height="675" ${lazy ? 'loading="lazy"' : ''} decoding="async" onerror="this.closest('.card-cover').classList.add('no-image'); this.remove();">`;
+        }
+        return '';
+    }
+
+    function cardHTML(p, index) {
+        const links = [];
+        if (p.demo) links.push(`<a class="card-link" href="${escapeHTML(p.demo)}" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-external"></use></svg>Live demo</a>`);
+        if (p.github) links.push(`<a class="card-link" href="${escapeHTML(p.github)}" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg>Source</a>`);
+        links.push(`<button class="card-link" type="button" data-open-project="${escapeHTML(p.id)}"><svg class="icon" aria-hidden="true"><use href="#i-plus-circle"></use></svg>Details</button>`);
+
+        return `
+        <article class="project-card reveal is-visible" data-category="${escapeHTML(p.category)}" style="--i:${index}">
+            <div class="card-cover ${p.image ? '' : 'no-image'}" data-cover="${escapeHTML(p.id)}">
+                ${coverHTML(p)}
+                <div class="cover-fallback" aria-hidden="true">
+                    <svg class="icon icon-xl"><use href="#${escapeHTML(p.icon || 'i-code')}"></use></svg>
+                    <span>${escapeHTML(p.title.split(' — ')[0])}</span>
+                </div>
+                <span class="card-year">${escapeHTML(p.year)}</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">${escapeHTML(p.title)}</h3>
+                <p class="card-tagline">${escapeHTML(p.tagline)}</p>
+                <ul class="chips chips-sm" aria-label="Stack">${p.stack.slice(0, 4).map((s) => `<li>${escapeHTML(s)}</li>`).join('')}</ul>
+                <div class="card-links">${links.join('')}</div>
+            </div>
+        </article>`;
+    }
 
     function initProjects() {
-        const container = document.getElementById('projects-container');
-        const filterContainer = document.getElementById('project-filters');
-        const countEl = document.getElementById('projects-count');
+        const grid = $('#project-grid');
+        const filters = $('#project-filters');
+        if (!grid) return;
+        const list = PROJECTS.filter((p) => !p.featured);
 
-        if (!container || typeof projectsData === 'undefined') return;
+        // Filters (only categories that exist)
+        const present = new Set(list.map((p) => p.category));
+        filters.innerHTML = CATEGORIES.filter((c) => c.id === 'all' || present.has(c.id))
+            .map((c, i) => `<button type="button" class="filter${i === 0 ? ' is-active' : ''}" data-filter="${c.id}" aria-pressed="${i === 0}">${escapeHTML(c.label)}</button>`).join('');
 
-        // Projects counter is driven by the data, never hard-coded.
-        if (countEl && Array.isArray(projectsData)) {
-            countEl.setAttribute('data-target', projectsData.length);
-        }
+        const render = (cat) => {
+            const shown = cat === 'all' ? list : list.filter((p) => p.category === cat);
+            grid.innerHTML = shown.map(cardHTML).join('') || '<p class="muted">No project in this category yet.</p>';
+        };
+        render('all');
 
-        const allBadges = new Set(['All']);
-        projectsData.forEach((p) => p.badges.forEach((b) => allBadges.add(b)));
+        filters.addEventListener('click', (e) => {
+            const b = e.target.closest('[data-filter]'); if (!b) return;
+            $$('.filter', filters).forEach((f) => { f.classList.toggle('is-active', f === b); f.setAttribute('aria-pressed', String(f === b)); });
+            render(b.dataset.filter);
+        });
 
-        if (filterContainer) {
-            allBadges.forEach((badge) => {
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.className = `filter-chip ${badge === 'All' ? 'active' : ''}`;
-                button.textContent = badge;
-                button.setAttribute('aria-pressed', badge === 'All' ? 'true' : 'false');
-                button.addEventListener('click', () => {
-                    filterContainer.querySelectorAll('.filter-chip').forEach((btn) => {
-                        btn.classList.remove('active');
-                        btn.setAttribute('aria-pressed', 'false');
-                    });
-                    button.classList.add('active');
-                    button.setAttribute('aria-pressed', 'true');
-                    renderProjects(badge);
-                });
-                filterContainer.appendChild(button);
-            });
-        }
+        // Featured demo link (hidden until a URL is set)
+        const demo = $('#binga-demo'); const binga = byId('binga');
+        if (demo && binga?.demo) { demo.href = binga.demo; demo.hidden = false; }
+    }
 
-        const renderProjects = (filter = 'All') => {
-            const filtered = filter === 'All'
-                ? projectsData
-                : projectsData.filter((p) => p.badges.includes(filter));
+    function initModal() {
+        const modal = $('#project-modal'); if (!modal) return;
+        const dialog = $('.modal-dialog', modal);
+        let lastFocus = null;
 
-            container.innerHTML = '';
+        const open = (p, trigger) => {
+            lastFocus = trigger || document.activeElement;
+            $('.modal-kicker', modal).textContent = `${p.year} · ${CATEGORIES.find((c) => c.id === p.category)?.label || ''}`;
+            $('#modal-title').textContent = p.title;
+            $('.modal-role', modal).textContent = p.role || p.tagline;
+            $('.modal-desc', modal).textContent = p.description;
+            $('.modal-highlights', modal).innerHTML = (p.highlights || []).map((h) => `<li>${escapeHTML(h)}</li>`).join('');
+            $('.modal-stack', modal).innerHTML = p.stack.map((s) => `<li>${escapeHTML(s)}</li>`).join('');
+            $('.modal-media', modal).innerHTML = p.image
+                ? `<img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)} — screenshot" width="1200" height="675" decoding="async">`
+                : `<div class="cover-fallback modal-fallback" aria-hidden="true"><svg class="icon icon-xl"><use href="#${escapeHTML(p.icon || 'i-code')}"></use></svg></div>`;
+            const actions = [];
+            if (p.demo) actions.push(`<a class="btn btn-primary" href="${escapeHTML(p.demo)}" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-external"></use></svg><span>Live demo</span></a>`);
+            if (p.github) actions.push(`<a class="btn btn-ghost" href="${escapeHTML(p.github)}" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg><span>View source</span></a>`);
+            if (!p.github) actions.push('<span class="note">Source code is private (company project).</span>');
+            $('.modal-actions', modal).innerHTML = actions.join('');
 
-            const status = document.getElementById('projects-status');
-            if (status) status.textContent = `${filtered.length} project${filtered.length === 1 ? '' : 's'} shown`;
-
-            filtered.forEach((project, index) => {
-                const card = buildCard(project, filter, index);
-                container.appendChild(card);
-            });
+            modal.hidden = false;
+            document.body.classList.add('modal-open');
+            requestAnimationFrame(() => dialog.focus());
+        };
+        const close = () => {
+            modal.hidden = true;
+            document.body.classList.remove('modal-open');
+            lastFocus?.focus?.();
         };
 
-        renderProjects();
-    }
-
-    function buildCard(project, filter, index) {
-        const card = document.createElement('article');
-        card.className = `project-card reveal-element is-visible${project.isFeatured && filter === 'All' ? ' featured' : ''}`;
-        card.style.setProperty('animation-delay', `${index * 0.05}s`);
-        card.setAttribute('data-project', project.title);
-
-        const hasImage = Boolean(project.image);
-        const iconSvg = `<svg class="icon-lg" aria-hidden="true" focusable="false"><use href="#i-${project.icon}"></use></svg>`;
-
-        const headerInner = hasImage
-            ? `<img src="${escapeHTML(project.image)}" alt="${escapeHTML(project.title)} preview" class="project-image" loading="lazy" width="1200" height="675"
-                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-               <div class="project-header-overlay" aria-hidden="true"></div>
-               <span class="project-header-icon" style="display:none;">${iconSvg}</span>`
-            : `<span class="project-header-icon">${iconSvg}</span>`;
-
-        const featuresHTML = project.features && project.features.length
-            ? `<ul class="project-features-list">${project.features.slice(0, 4)
-                .map((f) => `<li>${escapeHTML(f)}</li>`).join('')}</ul>`
-            : '';
-
-        const badgesHTML = project.badges
-            .map((b) => `<span class="badge">${escapeHTML(b)}</span>`).join('');
-
-        const impactHTML = project.impact
-            ? `<div class="impact-banner">${escapeHTML(project.impact)}</div>`
-            : '';
-
-        const sourceLink = project.github
-            ? `<a href="${escapeHTML(project.github)}" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub">
-                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"></use></svg> Source</a>`
-            : '';
-
-        const demoLink = project.demo
-            ? `<a href="${escapeHTML(project.demo)}" target="_blank" rel="noopener noreferrer" aria-label="Open live demo or video">
-                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-external"></use></svg> Demo</a>`
-            : '';
-
-        card.innerHTML = `
-            <div class="project-header" style="background: ${project.gradient}">
-                ${headerInner}
-                ${project.isNew ? '<span class="new-tag">New</span>' : ''}
-            </div>
-            <div class="project-body">
-                <h5>${escapeHTML(project.title)}</h5>
-                <p>${escapeHTML(project.description)}</p>
-                ${featuresHTML}
-                ${impactHTML}
-                <div class="badges">${badgesHTML}</div>
-                <div class="project-links">
-                    <button type="button" class="details-btn" aria-haspopup="dialog">
-                        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-code"></use></svg> Details
-                    </button>
-                    ${sourceLink}
-                    ${demoLink}
-                </div>
-            </div>
-        `;
-
-        // Tilt & glow (decorative, disabled with reduced motion)
-        if (!reducedMotion && window.innerWidth >= 992) {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
-                card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
-                card.style.transform = `perspective(1000px) rotateX(${(rect.height / 2 - y) / 20}deg) rotateY(${(x - rect.width / 2) / 20}deg) scale3d(1.01, 1.01, 1.01)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-            });
-        }
-
-        const detailsBtn = card.querySelector('.details-btn');
-        if (detailsBtn) {
-            detailsBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                openModal(project, card);
-            });
-        }
-
-        card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                if (detailsBtn) detailsBtn.click();
-            }
+        document.addEventListener('click', (e) => {
+            const t = e.target.closest('[data-open-project]');
+            if (t) { const p = byId(t.dataset.openProject); if (p) open(p, t); return; }
+            if (e.target.closest('[data-close]')) close();
         });
-
-        return card;
-    }
-
-    /* ── 7. Project Detail Modal ──────────────────────────────────────── */
-
-    function initProjectModal() {
-        const modal = document.getElementById('project-modal');
-        if (!modal) return;
-
-        modal.querySelectorAll('[data-modal-close]').forEach((el) => {
-            el.addEventListener('click', closeModal);
-        });
-
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.hidden) {
-                closeModal();
+            if (modal.hidden) return;
+            if (e.key === 'Escape') { close(); return; }
+            if (e.key === 'Tab') { // focus trap
+                const f = $$('a[href], button:not([disabled]), [tabindex="0"]', dialog);
+                if (!f.length) return;
+                const first = f[0], last = f[f.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
             }
         });
     }
 
-    function openModal(project, trigger) {
-        const modal = document.getElementById('project-modal');
-        if (!modal) return;
-
-        lastFocusedCard = trigger;
-
-        const headerIcon = modal.querySelector('#project-modal-header use');
-        const title = document.getElementById('project-modal-title');
-        const body = document.getElementById('project-modal-body');
-
-        if (headerIcon) headerIcon.setAttribute('href', `#i-${project.icon}`);
-        title.textContent = project.title;
-
-        const featuresHTML = project.features && project.features.length
-            ? `<h4>Highlights</h4><ul class="project-features-list">${project.features
-                .map((f) => `<li>${escapeHTML(f)}</li>`).join('')}</ul>`
-            : '';
-
-        const impactHTML = project.impact
-            ? `<div class="impact-banner">${escapeHTML(project.impact)}</div>`
-            : '';
-
-        const archHTML = project.architecture
-            ? `<div class="modal-arch"><strong>Architecture:</strong> ${escapeHTML(project.architecture)}</div>`
-            : '';
-
-        const badgesHTML = project.badges
-            .map((b) => `<span class="badge">${escapeHTML(b)}</span>`).join('');
-
-        const sourceLink = project.github
-            ? `<a href="${escapeHTML(project.github)}" class="btn-outline-zak" target="_blank" rel="noopener noreferrer">
-                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"></use></svg> Source</a>`
-            : '';
-
-        const demoLink = project.demo
-            ? `<a href="${escapeHTML(project.demo)}" class="btn-primary-zak" target="_blank" rel="noopener noreferrer">
-                <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-external"></use></svg> Open demo</a>`
-            : '';
-
-        body.innerHTML = `
-            <p>${escapeHTML(project.description)}</p>
-            ${impactHTML}
-            ${archHTML}
-            ${featuresHTML}
-            <div class="badges">${badgesHTML}</div>
-            <div class="modal-actions">
-                ${demoLink}
-                ${sourceLink}
-            </div>
-        `;
-
-        modal.hidden = false;
-        document.body.classList.add('modal-open');
-        document.querySelector('.modal-close').focus();
+    /* ---------- Featured gallery ---------- */
+    function initGallery() {
+        const g = $('#binga-gallery'); if (!g) return;
+        const main = $('#gallery-main', g);
+        const tabs = $$('[role="tab"]', g);
+        const select = (tab) => {
+            tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+            main.src = tab.dataset.src; main.alt = tab.dataset.alt || '';
+        };
+        tabs.forEach((t) => t.addEventListener('click', () => select(t)));
+        g.addEventListener('keydown', (e) => {
+            if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+            const i = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+            const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+            select(n); n.focus(); e.preventDefault();
+        });
     }
 
-    function closeModal() {
-        const modal = document.getElementById('project-modal');
-        if (!modal || modal.hidden) return;
-
-        modal.hidden = true;
-        document.body.classList.remove('modal-open');
-        if (lastFocusedCard) lastFocusedCard.focus();
-    }
-
-    /* ── 8. Contact Form (Formspree) ──────────────────────────────────── */
-
+    /* ---------- Contact form (Formspree) ---------- */
     function initContactForm() {
-        const form = document.getElementById('contactForm');
-        if (!form) return;
+        const form = $('#contact-form'); if (!form) return;
+        const feedback = $('#form-feedback');
+        const btn = $('#submit-btn');
+        const configured = !/TODO_FORM_ID/.test(form.action);
 
-        const feedback = document.getElementById('formFeedback');
-        const submitBtn = document.getElementById('submitBtn');
-        const label = submitBtn ? submitBtn.querySelector('.submit-label') : null;
-        const contactAlt = document.getElementById('contact-alt');
+        const setError = (input, msg) => {
+            const field = input.closest('.field');
+            field.classList.toggle('has-error', !!msg);
+            $('.field-error', field).textContent = msg || '';
+            input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+        };
+        const validate = () => {
+            let ok = true;
+            const name = $('#f-name'), email = $('#f-email'), msg = $('#f-message');
+            if (name.value.trim().length < 2) { setError(name, 'Please enter your name.'); ok = false; } else setError(name, '');
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) { setError(email, 'Please enter a valid email address.'); ok = false; } else setError(email, '');
+            if (msg.value.trim().length < 10) { setError(msg, 'Tell me a little more (10 characters minimum).'); ok = false; } else setError(msg, '');
+            return ok;
+        };
+        const say = (text, type) => { feedback.textContent = text; feedback.dataset.type = type; };
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            // Honeypot — silently ignore bots that filled it.
-            const honey = form.querySelector('input[name="_gotcha"]');
-            if (honey && honey.value) return;
-
-            const name = form.name.value.trim();
-            const email = form.email.value.trim();
-            const message = form.message.value.trim();
-
-            let isValid = validateInput(form.name, name, 'Name is required');
-            isValid = validateInput(form.email, email, 'A valid email is required', /^[^\s@]+@[^\s@]+\.[^\s@]+$/) && isValid;
-            isValid = validateInput(form.message, message, 'Message is required') && isValid;
-
-            if (!isValid) return;
-
-            setFeedback('', '');
-            disableSubmit(true);
-            if (label) label.textContent = 'Sending...';
-
-            const action = form.getAttribute('action') || '';
+            if (!validate()) return;
+            if (!configured) {
+                const subject = encodeURIComponent('Message from your portfolio');
+                const body = encodeURIComponent(`${$('#f-message').value}\n\n— ${$('#f-name').value} (${$('#f-email').value})`);
+                window.location.href = `mailto:zaaria46@gmail.com?subject=${subject}&body=${body}`;
+                say('Opening your email client…', 'ok');
+                return;
+            }
+            btn.disabled = true; $('span', btn).textContent = 'Sending…';
             try {
-                const response = await fetch(action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { Accept: 'application/json' }
-                });
-
-                if (response.ok) {
-                    setFeedback('Message sent — I will get back to you soon. Thank you!', 'success');
-                    form.reset();
-                } else {
-                    throw new Error('Request failed');
-                }
-            } catch (err) {
-                setFeedback('Something went wrong. Please email me directly and I will get back to you.', 'error');
+                const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+                if (!res.ok) throw new Error(String(res.status));
+                form.reset(); say('Thanks! Your message has been sent — I will reply soon.', 'ok');
+            } catch {
+                say('Something went wrong. Please email me directly at zaaria46@gmail.com.', 'error');
+            } finally {
+                btn.disabled = false; $('span', btn).textContent = 'Send message';
             }
-
-            disableSubmit(false);
-            if (label) label.textContent = 'Send Message';
-
-            if (contactAlt) contactAlt.style.display = 'block';
         });
+        $$('input, textarea', form).forEach((el) => el.addEventListener('input', () => { if (el.closest('.field')?.classList.contains('has-error')) validate(); }));
     }
 
-    function validateInput(input, value, message, pattern) {
-        const group = input.parentElement;
-        const error = group ? group.querySelector('.error-message') : null;
-        const passes = value !== '' && (!pattern || pattern.test(value));
-
-        input.classList.toggle('error', !passes);
-        if (error) {
-            error.textContent = passes ? '' : message;
-            error.classList.toggle('show', !passes);
-        }
-        return passes;
+    /* ---------- Misc ---------- */
+    function initMisc() {
+        const top = $('#back-to-top');
+        const toggle = () => top?.classList.toggle('is-visible', window.scrollY > 600);
+        toggle(); window.addEventListener('scroll', toggle, { passive: true });
+        top?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' }));
+        const y = $('#year'); if (y) y.textContent = String(new Date().getFullYear());
     }
 
-    function setFeedback(message, type) {
-        const feedback = document.getElementById('formFeedback');
-        if (!feedback) return;
-        feedback.textContent = message;
-        feedback.className = type ? `form-feedback ${type} show` : 'form-feedback';
-    }
-
-    function disableSubmit(disabled) {
-        const submitBtn = document.getElementById('submitBtn');
-        if (submitBtn) submitBtn.disabled = disabled;
-    }
-
-    /* ── 9. Typewriter Effect ─────────────────────────────────────────── */
-
-    function initTypewriter() {
-        const element = document.getElementById('typing-text');
-        if (!element) return;
-
-        if (reducedMotion) {
-            element.textContent = 'software that ships';
-            return;
-        }
-
-        const words = [
-            'full-stack web applications',
-            'secure REST APIs',
-            'robust backend systems',
-            'intelligent AI features'
-        ];
-
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 100;
-
-        function type() {
-            const currentWord = words[wordIndex];
-
-            if (isDeleting) {
-                charIndex--;
-                typeSpeed = 50;
-            } else {
-                charIndex++;
-                typeSpeed = 100;
-            }
-
-            element.textContent = currentWord.substring(0, charIndex);
-
-            if (!isDeleting && charIndex === currentWord.length) {
-                isDeleting = true;
-                typeSpeed = 2000;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length;
-                typeSpeed = 500;
-            }
-
-            setTimeout(type, typeSpeed);
-        }
-
-        type();
-    }
-
-    /* ── 10. Back to Top ──────────────────────────────────────────────── */
-
-    function initBackToTop() {
-        const btn = document.getElementById('backToTop');
-        if (!btn) return;
-
-        window.addEventListener('scroll', () => {
-            btn.classList.toggle('show', window.scrollY > 500);
-        }, { passive: true });
-
-        btn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
-        });
-    }
+    initTheme();
+    initHeader();
+    initProjects();
+    initModal();
+    initGallery();
+    initReveal();
+    initContactForm();
+    initMisc();
 })();

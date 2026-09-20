@@ -1,22 +1,12 @@
-# Project images (assets/projects/)
+# Project screenshots
 
-Place a WebP screenshot for each project here at **1200x675 px** (16:9).
+1200 × 675 (16:9) or 1600 × 800 (2:1) WebP, quality ~80. Referenced from `projects.js` (`image` / `gallery`).
 
-- `binga.webp` — BINGA merchant contract-management dashboard (optional but recommended)
-- `emsi-learn.webp` — EMSILearn LMS
-- `nextgen.webp` — NextGen dev social network
-- `techstore.webp` — TechStore back-office
-- `santeplus.webp` — SantéPlus appointment booking
-- `hotel.webp` — Hotel Management System (console app)
-- `portfolio.webp` — This portfolio site
+| File | Used by |
+|---|---|
+| `binga.webp` | Hero visual, featured gallery (dashboard) |
+| `binga-merchants.webp`, `binga-form.webp`, `binga-pdf.webp`, `binga-assistant.webp` | Featured gallery |
+| `techstore.webp` | TechStore card |
+| `emsi-learn.webp`, `nextgen.webp`, `santeplus.webp`, `hotel.webp`, `portfolio.webp` | Optional — add the file, then set `image` on the project in `projects.js` |
 
-How to add one:
-
-```text
-1. Take a clean screenshot of the project (no personal data).
-2. Resize/crop to 1200x675 and export as WebP (quality ~80).
-3. Name it exactly as above and drop it in this folder.
-4. Done — cards render the image automatically with lazy loading.
-```
-
-If a file is missing, the card simply falls back to the gradient header with its icon, so nothing breaks.
+A project without an image gets a designed cover (icon + name) automatically.
