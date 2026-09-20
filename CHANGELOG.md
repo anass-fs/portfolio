@@ -14,6 +14,7 @@ Rebuilt the page for a recruiter-first reading, keeping the visual identity (dar
 - Light theme follows `prefers-color-scheme` on first visit; toggle persisted.
 
 ### Changed
+- Academic year updated: 4th year (4IIR), AI & Data specialisation.
 - Copy rewritten: shorter, concrete, past tense for the internship (22 Jun – 22 Jul 2026), "Open to internships — summer 2027".
 - Experience timeline with four measurable bullets per entry; skills regrouped (Backend / Frontend / Data & AI / Tools).
 - Navigation: About · Featured · Projects · Experience · Skills · Contact + Résumé button.
