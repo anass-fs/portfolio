@@ -1,62 +1,77 @@
-# 🚀 Professional Engineering Portfolio - ANAS
+# Anass Zaari — Portfolio
 
-A modern, high-performance, and accessibility-focused developer portfolio built for recruiters and technical collaborators. This portfolio showcases my journey as a Software Engineering student at EMSI, focusing on full-stack web applications with Django, Spring Boot, and MySQL.
+A fast, accessible, vanilla HTML/CSS/JS portfolio for **Anass Zaari** — Software Engineering
+(IIR) student at EMSI, Casablanca, and full-stack developer (Spring Boot, Angular, Django, Symfony).
 
-## ✨ Key Features
+Live: https://anass-fs.github.io/portfolio/
 
-- **Modern & Premium UI/UX**: Clean, minimalist design with smooth animations and glassmorphism effects.
-- **Dark/Light Theme**: Fully integrated theme support with persistent user preference.
-- **Dynamic Project Rendering**: Projects are loaded from a central `projects.js` file for easy management.
-- **Accessibility (A11y)**: Semantic HTML5, keyboard navigability, and ARIA labels throughout.
-- **SEO Optimized**: Complete meta tags, Open Graph support, and JSON-LD structured data.
-- **Fully Responsive**: Optimized for all devices, from mobile phones to ultra-wide monitors.
-- **Interactive Elements**: Custom cursor (desktop), typewriter effect, and scroll-reveal animations.
+## Features
 
-## 🛠️ Technologies Used
+- **Vanilla stack** — HTML5, CSS3, JavaScript (ES6+). No frameworks, no build step.
+- **Inline SVG icons** — zero icon-library requests, only self-hosted fonts hit the network.
+- **Dark / light theme** — persistent, with `prefers-color-scheme` friendly toggle.
+- **Accessible** — semantic landmarks, one `h1`, visible focus styles, ARIA labels,
+  reduced-motion support, keyboard-friendly project modal.
+- **SEO** — descriptive meta tags, Open Graph / Twitter cards, JSON-LD Person schema,
+  `robots.txt`, `sitemap.xml`, `site.webmanifest`.
+- **Dynamic projects** — data lives in `projects.js`; cards, filters and the counter are
+  rendered from it. Images go in `assets/projects/*.webp` and are lazy-loaded.
+- **Working contact form** — posts to Formspree (fetch + JSON), with honeypot and an email
+  fallback so visitors can always reach out.
 
-- **Frontend**: HTML5, CSS3 (Vanilla), JavaScript (ES6+)
-- **Icons**: Font Awesome 6
-- **Fonts**: Space Grotesk (Headings), IBM Plex Sans (Body)
-- **Deployment**: Optimized for GitHub Pages
+## Local development
 
-## 📁 Project Structure
-
-```text
-├── index.html       # Core structure and semantic markup
-├── styles.css       # Organized modular CSS (Variables, Components, Sections)
-├── script.js        # Core logic, animations, and interactivity
-├── projects.js      # Central data store for portfolio projects
-└── README.md        # Technical documentation
+```bash
+python -m http.server 8080
+# then open http://localhost:8080
 ```
 
-## 🚀 Getting Started
+Or run `npx serve` / any static-server of your choice. Opening `index.html` directly from
+disk also works, but the HTTP server avoids any file:// edge cases.
 
-### Local Development
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/anass-fs/portfolio.git
-   ```
-2. Open `index.html` in your browser.
-3. *Recommendation*: Use the **Live Server** extension in VS Code for a better development experience.
+> `projects.js` and `script.js` are loaded with `defer`, so the page renders without them.
 
-### Customization
-- **Projects**: Update `projects.js` to add or modify your work.
-- **Personal Info**: Replace names, links, and contact details in `index.html`.
-- **Assets**: Add your CV and Open Graph image to an `assets/` folder.
+## Project structure
 
-## 🌐 Deployment
+```text
+.
+├── index.html            # Semantic structure, meta/SEO, inline SVG sprite
+├── styles.css            # Variables, components, sections, responsive
+├── script.js             # Rendering, interactions, form, modal, a11y helpers
+├── projects.js           # Central project data (editable here)
+├── assets/
+│   ├── favicon.svg        # "AZ" monogram
+│   ├── og-image.png       # Social share image (1200 x 630)
+│   ├── apple-touch-icon.png
+│   └── projects/          # Screenshots: assets/projects/README.md
+├── robots.txt
+├── sitemap.xml
+└── site.webmanifest
+```
 
-This portfolio is designed to be hosted on **GitHub Pages**:
-1. Push your code to a GitHub repository.
-2. Go to **Settings > Pages**.
-3. Select the branch and folder (usually `main` / `/(root)`) and click **Save**.
-4. Your site will be live at `https://<username>.github.io/<repo-name>/`.
+## Customization
 
-## 📧 Contact
+- **Projects**: edit `projects.js`. Keep the JSDoc `@typedef` shape; images are optional.
+- **Contact form**: replace `TODO_FORM_ID` in `index.html` with your real Formspree form ID
+  (`https://formspree.io/f/...`). The form already submits cleanly — no page reload.
+- **Personal info**: name, email, phone and links are centralized in `index.html` (meta,
+  hero, about, contact, footer) and in the JSON-LD block.
+- **Screenshots**: drop images into `assets/projects/` (1200 x 675 WebP). See
+  `assets/projects/README.md`.
 
-- **LinkedIn**: [anass-zaari](https://www.linkedin.com/in/anass-zaari)
-- **GitHub**: [anass-fs](https://github.com/anass-fs)
-- **Email**: zaaria46@gmail.com
+## Notes for the owner
 
----
-*Built with passion and precision by ANAS.*
+Pending items (marked with `TODO(anass)` in the code where relevant):
+
+1. Real Formspree form ID.
+2. BINGA demo video URL (`projects.js`) and/or a dashboard screenshot (`assets/projects/binga.webp`).
+3. SantéPlus public demo/video link (`projects.js`).
+
+## Contact
+
+- LinkedIn: https://www.linkedin.com/in/anass-zaari
+- GitHub: https://github.com/anass-fs
+- Email: zaaria46@gmail.com
+- CV: https://drive.google.com/file/d/1xHHCDoHBneSHsE5vm3JZtkq1zgB7zaCM/view?usp=sharing
+
+Built with patience and a bit of JavaScript.
