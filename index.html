@@ -110,7 +110,12 @@
     <header class="site-header">
         <div class="container header-inner">
             <a href="#top" class="brand" aria-label="Anass Zaari — back to top">
-                <span class="brand-mark" aria-hidden="true">AZ</span>
+                <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" class="brand-svg" focusable="false">
+                    <defs><linearGradient id="az-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6a3d"/><stop offset="1" stop-color="#ffb26b"/></linearGradient></defs>
+                    <path class="az-hex" d="M20 2.5 34.5 10.9v18.2L20 37.5 5.5 29.1V10.9Z" fill="none" stroke="url(#az-g)" stroke-width="2.2" stroke-linejoin="round"/>
+                    <path class="az-a" d="M9.5 27.5 16.2 12.5h2.4l6.7 15h-3.1l-1.5-3.6h-6.6l-1.5 3.6Zm5.6-6.2h4.6l-2.3-5.6Z" fill="currentColor"/>
+                    <path class="az-z" d="M21.8 12.5h9.2v2.3L25.1 25h6.1v2.5h-9.6v-2.3l5.9-10.2h-5.7Z" fill="url(#az-g)"/>
+                </svg></span>
                 <span class="brand-name">Anass Zaari</span>
             </a>
 
@@ -150,15 +155,15 @@
                     <h1 id="hero-title" class="reveal">Anass Zaari</h1>
                     <p class="hero-lead reveal">Full-stack developer building <strong>secure, production-grade web applications</strong> with Spring Boot and Angular.</p>
                     <p class="hero-text reveal">
-                        Most recently at <strong>Berkeley Systems</strong>, I designed and shipped the merchant-contract module of
-                        <strong>BINGA</strong>, Morocco's first cash-payment channel — two-factor authentication, PDF/Excel exports
-                        and 100&nbsp;% local AI features.
+                        I design and build end-to-end web applications — from the data model and REST API to the interface —
+                        with a strong focus on <strong>security</strong>, <strong>clean architecture</strong> and measurable quality,
+                        and a growing practice of <strong>applied AI</strong> integrated into real products.
                     </p>
                     <div class="hero-actions reveal">
                         <a href="#featured" class="btn btn-primary"><span>See my work</span><svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
                         <a href="#contact" class="btn btn-ghost">Get in touch</a>
                     </div>
-                    <ul class="hero-meta reveal" aria-label="Quick facts">
+                    <ul class="hero-meta reveal stagger" aria-label="Quick facts">
                         <li><svg class="icon" aria-hidden="true"><use href="#i-map-pin"></use></svg>Casablanca, Morocco</li>
                         <li><svg class="icon" aria-hidden="true"><use href="#i-grad"></use></svg>4th year · Computer Science &amp; Networks Engineering</li>
                         <li class="status"><span class="dot" aria-hidden="true"></span>Open to internships — summer 2027</li>
@@ -181,22 +186,22 @@
             <div class="container">
                 <header class="section-head reveal">
                     <p class="eyebrow">About</p>
-                    <h2 id="about-title">Backend-first, product-minded.</h2>
+                    <h2 id="about-title">Engineering software that is secure, reliable and built to last.</h2>
                 </header>
                 <div class="about-grid">
                     <div class="about-text reveal">
                         <p>
-                            I'm a fourth-year engineering student in <strong>Computer Science &amp; Networks (IIR)</strong> at EMSI Casablanca, graduating in 2028.
-                            I like turning a business problem into software that is reliable, secure and pleasant to use — with a clean API underneath.
+                            I'm a fourth-year engineering student in <strong>Computer Science &amp; Networks (IIR)</strong> at EMSI Casablanca, graduating in 2028,
+                            with a full-stack practice centred on the <strong>Java / Spring Boot</strong> and <strong>Angular</strong> ecosystems.
                         </p>
                         <p>
-                            During my internship at <strong>Berkeley Systems</strong> I owned a module end to end: requirements with the product team, UML design,
-                            a Spring Boot 3 REST API secured with JWT, TOTP and reCAPTCHA, an Angular 20 dashboard, and semantic search plus an assistant
-                            running entirely on local models with Ollama. Fourteen functional test cases, all passing, and a defended report.
+                            I approach every product backend-first: a well-modelled domain, a clean and documented REST API, authentication and
+                            authorisation designed in from day one, then an interface that stays simple for the people who use it every day.
+                            I care about the details that make software trustworthy — validation, testing, performance and maintainable code.
                         </p>
                         <p>
-                            This year I'm moving into the <strong>AI &amp; Data</strong> specialisation, and I'm looking for a software engineering internship
-                            for summer 2027 where I can keep building at that intersection.
+                            I'm now specialising in <strong>AI &amp; Data</strong> and particularly interested in bringing language models and semantic search
+                            into business applications in a controlled, privacy-preserving way. I'm open to a software engineering internship for summer 2027.
                         </p>
                     </div>
                     <aside class="about-facts reveal" aria-label="Key facts">
@@ -207,9 +212,9 @@
                             <div><dt>Currently learning</dt><dd>Spring AI &amp; RAG, Angular signals, CI/CD, automated testing</dd></div>
                         </dl>
                         <ul class="stats" aria-label="Numbers">
-                            <li><strong data-count="7">0</strong><span>projects</span></li>
-                            <li><strong data-count="1">0</strong><span>industry internship</span></li>
-                            <li><strong data-count="14">0</strong><span>test cases passed on BINGA</span></li>
+                            <li><strong><span data-count="7">0</span></strong><span>projects delivered</span></li>
+                            <li><strong><span data-count="4">0</span></strong><span>years of engineering studies</span></li>
+                            <li><strong><span data-count="12">0</span>+</strong><span>technologies in production use</span></li>
                         </ul>
                     </aside>
                 </div>
@@ -255,7 +260,7 @@
                             <li>Semantic search on <abbr title="BAAI general embedding, multilingual">bge-m3</abbr> embeddings with cosine similarity — 100&nbsp;% local via Ollama</li>
                             <li>Conversational assistant on Qwen2.5:3B using a Strategy pattern: one intent, one executor — the model never touches the database</li>
                         </ul>
-                        <ul class="metrics" aria-label="Results">
+                        <ul class="metrics stagger" aria-label="Results">
                             <li><strong>14 / 14</strong><span>functional test cases passed</span></li>
                             <li><strong>260 → 10 ms</strong><span>semantic search with Spring Cache</span></li>
                             <li><strong>0</strong><span>external API calls — all AI runs on-premise</span></li>
@@ -330,7 +335,7 @@
                     <p class="eyebrow">Skills</p>
                     <h2 id="skills-title">What I work with</h2>
                 </header>
-                <div class="skills-grid">
+                <div class="skills-grid stagger">
                     <div class="skill-group reveal">
                         <h3><svg class="icon" aria-hidden="true"><use href="#i-terminal"></use></svg>Backend</h3>
                         <ul class="chips"><li>Java 17</li><li>Spring Boot 3</li><li>Spring Security</li><li>REST APIs</li><li>Python · Django</li><li>PHP · Symfony</li><li>C / C++</li></ul>
